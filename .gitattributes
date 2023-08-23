@@ -1,0 +1,32 @@
+# Auto detect text files and perform LF normalization
+* text=auto eol=lf
+
+# Treat JavaScript files as text
+*.js text eol=lf
+
+# Treat JSON files as text
+*.json text eol=lf
+
+# Treat CSS files as text
+*.css text eol=lf
+
+# Treat HTML files as text
+*.html text eol=lf
+
+# Treat Markdown files as text
+*.md text eol=lf
+
+# Treat YAML files as text
+*.yml text eol=lf
+
+# Treat image files as binary
+*.png binary
+*.jpg binary
+*.gif binary
+
+# Ignore the following files and directories
+# (Add more patterns as needed)
+/node_modules/ binary
+/.next/ binary
+/out/ binary
+/.vercel/ binary
