@@ -3,6 +3,8 @@
 import React, { createContext } from 'react';
 import { useTxSpamWorker } from '@/hooks/useTxSpamWorker';
 
+import Logo from '@/assets/icons/arrow.svg?inline';
+
 interface GameState {
   ///
 }
@@ -27,6 +29,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
 
   return (
     <GameContext.Provider value={{}}>
+      <Logo />
       <button onClick={handleWork}>Work</button>
       {children}
     </GameContext.Provider>
