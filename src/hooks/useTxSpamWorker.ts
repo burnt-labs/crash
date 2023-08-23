@@ -1,25 +1,35 @@
 import { useEffect, useState, useCallback } from 'react';
+import { DoneEvent, TxEvent } from '@/workers/send-transactions-worker';
 
 interface UseTxSpamWorkerProps {
   duration: number;
 }
 
 export const useTxSpamWorker = ({ duration }: UseTxSpamWorkerProps) => {
-  const [isStarted, setIsStarted] = useState(false);
-  const [error, setError] = useState<unknown>(null);
   const [worker, setWorker] = useState<Worker | null>(null);
+  const [isStarted, setIsStarted] = useState(false);
+  const [isDone, setIsDone] = useState(false);
+  const [error, setError] = useState<unknown>(null);
   const [txHashes, setTxHashes] = useState<string[]>([]);
 
   useEffect(() => {
     if (typeof window.Worker !== 'undefined') {
       const workerInstance = new Worker(
-        new URL('../workers/send-transaction-worker.ts', import.meta.url),
+        new URL('../workers/send-transactions-worker.ts', import.meta.url),
       );
 
       setWorker(workerInstance);
 
-      workerInstance.onmessage = (event) => {
-        setTxHashes((prev) => [...prev, event.data]);
+      workerInstance.onmessage = (event: MessageEvent<TxEvent | DoneEvent>) => {
+        if (event.data.event === 'done') {
+          setIsDone(false);
+        }
+
+        if (event.data.event == 'tx') {
+          const hash = event.data.hash;
+
+          setTxHashes((prev) => [...prev, hash]);
+        }
       };
 
       workerInstance.onerror = (err) => {
@@ -45,5 +55,5 @@ export const useTxSpamWorker = ({ duration }: UseTxSpamWorkerProps) => {
     }
   }, [duration, isStarted, worker]);
 
-  return { txHashes, error, start: handleStart };
+  return { isDone, txHashes, error, start: handleStart };
 };

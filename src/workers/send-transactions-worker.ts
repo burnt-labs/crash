@@ -3,6 +3,16 @@ import { createClient } from '@/services/xion';
 
 const xionClientPromise = createClient(appConfig.rpcUrl);
 
+export interface TxEvent {
+  event: 'tx';
+  hash: string;
+}
+
+export interface DoneEvent {
+  event: 'done';
+  count: number;
+}
+
 self.addEventListener('message', async (event: MessageEvent<number>) => {
   const duration = event.data;
   const xionClient = await xionClientPromise;
@@ -15,17 +25,21 @@ self.addEventListener('message', async (event: MessageEvent<number>) => {
 
   while (isProcessing) {
     xionClient.getHeight().then((height) => {
-      self.postMessage({
+      const txEvent: TxEvent = {
         event: 'tx',
-        hash: height,
-      });
+        hash: height.toString(),
+      };
+
+      self.postMessage(txEvent);
     });
 
     count++;
   }
 
-  self.postMessage({
+  const doneEvent: DoneEvent = {
     event: 'done',
     count,
-  });
+  };
+
+  self.postMessage(doneEvent);
 });
