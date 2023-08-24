@@ -2,7 +2,6 @@ import React from 'react';
 import clsx from 'clsx';
 
 import styles from './ArrowButton.module.scss';
-
 import ArrowIcon from '@/assets/icons/arrow.svg?inline';
 
 interface ArrowButtonProps {

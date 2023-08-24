@@ -1,3 +1,5 @@
+const path = require('node:path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   webpack: (config) => {
@@ -20,6 +22,12 @@ const nextConfig = {
     );
     // Modify the file loader rule to ignore *.svg, since we have it handled now.
     fileLoaderRule.exclude = /\.svg$/i;
+
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@/styles': path.resolve(__dirname, 'src/styles'),
+    };
+
     return config;
   },
 };

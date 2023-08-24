@@ -1,5 +1,4 @@
-@import '../../styles/typography';
-// @import 'styles/mixins/media';
+@import '@/styles/typography';
 
 .root {
   background-image: url('../../assets/images/hero/hero_bg.jpg');
@@ -32,7 +31,7 @@
   word-wrap: none;
 }
 
-.body {
+.subtitle {
   @extend %body2;
   margin-bottom: 32px;
   text-align: center;

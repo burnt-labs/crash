@@ -1,1 +1,0 @@
-export { WalletCreated } from './WalletCreated';

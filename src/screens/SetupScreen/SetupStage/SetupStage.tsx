@@ -1,11 +1,9 @@
 'use client';
 
 import React from 'react';
-// import clsx from 'clsx';
+import styles from './SetupStage.module.scss';
 
-import styles from './WalletCreated.module.scss';
-
-export const WalletCreated: React.FC = () => {
+export const SetupStage: React.FC = () => {
   return (
     <section className={styles.root}>
       <div className={styles.container}>
