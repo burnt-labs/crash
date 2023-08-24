@@ -1,7 +1,8 @@
+import { StackNavigatorState } from '@/providers/NavigatorProvider';
 import React from 'react';
 
 interface StackScreenProps {
-  name: string;
+  name: StackNavigatorState;
   component: React.FC;
 }
 

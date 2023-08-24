@@ -1,18 +1,24 @@
 'use client';
 
-import React, { createContext, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useMemo, useState } from 'react';
 
 interface StackNavigatorProviderProps {
   children: React.ReactNode;
 }
 
+export type StackNavigatorState =
+  | 'InitialScreen'
+  | 'SetupScreen'
+  | 'GameScreen'
+  | 'GameOverScreen';
+
 interface StackNavigatorProviderContextState {
-  currentScreen: string;
-  navigateTo: (screenName: string) => void;
+  currentScreen: StackNavigatorState;
+  navigateTo: (screenName: StackNavigatorState) => void;
 }
 
 const initialState: StackNavigatorProviderContextState = {
-  currentScreen: '',
+  currentScreen: 'InitialScreen',
   navigateTo: () => {
     throw new Error('StackNavigatorProvider not initialized');
   },
@@ -24,18 +30,19 @@ export const StackNavigatorProviderContext =
 export const StackNavigatorProvider: React.FC<StackNavigatorProviderProps> = ({
   children,
 }) => {
-  const [currentScreen, setCurrentScreen] = useState<string>('');
+  const [currentScreen, setCurrentScreen] =
+    useState<StackNavigatorState>('InitialScreen');
 
-  const navigateTo = (screenName: string) => {
+  const navigateTo = useCallback((screenName: StackNavigatorState) => {
     setCurrentScreen(screenName);
-  };
+  }, []);
 
   const value = useMemo(
     () => ({
       currentScreen,
       navigateTo,
     }),
-    [currentScreen],
+    [currentScreen, navigateTo],
   );
 
   return (

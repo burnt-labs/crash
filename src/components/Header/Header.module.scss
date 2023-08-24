@@ -11,10 +11,16 @@
   height: 140px;
 }
 
-.sticky {
+.light {
   .link {
     background: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(5px);
+  }
+}
+
+.dark {
+  svg {
+    fill: #000;
   }
 }
 
