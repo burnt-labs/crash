@@ -1,16 +1,13 @@
 @import '@/styles/typography';
 
 .root {
-  background-image: url('../../assets/images/hero/hero_bg.jpg');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
   position: relative;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  animation: animation 9s infinite cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .container {
@@ -18,7 +15,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 872px;
+  max-width: 875px;
   width: 100%;
 }
 
@@ -29,6 +26,7 @@
   color: #fff;
   margin-bottom: 72px;
   word-wrap: none;
+  width: 100%;
 }
 
 .subtitle {
@@ -44,3 +42,26 @@
   color: #fff;
   margin-bottom: 60px;
 }
+
+// @keyframes animation {
+//   0% {
+//     background-image: url('../../assets/images/Burnt-Xion-Texture-1.jpg');
+//     background-position: center;
+//     background-repeat: no-repeat;
+//     background-size: cover;
+//   }
+
+//   50% {
+//     background-image: url('../../assets/images/Burnt-Xion-Texture-2.jpg');
+//     background-position: center;
+//     background-repeat: no-repeat;
+//     background-size: cover;
+//   }
+
+//   100% {
+//     background-image: url('../../assets/images/Burnt-Xion-Texture-3.jpg');
+//     background-position: center;
+//     background-repeat: no-repeat;
+//     background-size: cover;
+//   }
+// }

@@ -1,0 +1,47 @@
+@import '@/styles/typography';
+
+.root {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: animation 9s infinite cubic-bezier(0.4, 0, 0.2, 1);
+  height: 100vh;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1188px;
+  width: 100%;
+}
+
+.title {
+  @extend %display1;
+  text-transform: uppercase;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 80px;
+  word-wrap: none;
+  width: 100%;
+}
+
+.subtitle {
+  @extend %body1;
+  margin-bottom: 80px;
+  text-align: center;
+  color: #fff;
+}
+
+.caption {
+  @extend %body2;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 28px;
+}
+
+.digits {
+  @extend %digits2;
+}

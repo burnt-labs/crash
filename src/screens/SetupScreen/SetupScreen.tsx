@@ -8,9 +8,9 @@ interface SetupScreenProps {
 export const SetupScreen: React.FC<SetupScreenProps> = () => {
   return (
     <section>
-      <SetupStage />
-      <SetupStage />
-      <SetupStage />
+      <SetupStage title={'WALLET IS CREATED'} />
+      <SetupStage title={'FUNDS ACQUIRED'} />
+      <SetupStage title={'Transactions spam began'} />
     </section>
   );
 };

@@ -3,6 +3,7 @@
 import React from 'react';
 import { ArrowButton } from '@/components/ArrowButton';
 import { useStackNavigator } from '@/providers/NavigatorProvider';
+import { AnimationBg } from '../AnimationBg';
 
 import styles from './InitialScreen.module.scss';
 
@@ -15,6 +16,7 @@ export const InitialScreen: React.FC = () => {
 
   return (
     <section className={styles.root}>
+      <AnimationBg />
       <div className={styles.container}>
         <h1 className={styles.title}>BURN IT DOWN</h1>
         <p className={styles.subtitle}>
