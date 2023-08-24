@@ -6,7 +6,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
-  background-color: #fff;
+  background-color: transparent;
 }
 
 .container {
@@ -17,6 +17,7 @@
   width: 100%;
   padding: 80px 0;
   background-color: #fff;
+  z-index: 10;
 }
 
 .title {
