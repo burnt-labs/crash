@@ -1,0 +1,36 @@
+// @import 'styles/mixins/media';
+
+.root {
+  align-items: center;
+  display: flex;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+  height: 140px;
+}
+
+.sticky {
+  .link {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+  }
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.link {
+  padding: 20px 28px;
+  margin-top: 56px;
+  border-radius: 44px;
+
+  svg {
+    max-width: 142px;
+  }
+}

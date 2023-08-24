@@ -1,0 +1,26 @@
+@import '../../styles/typography';
+// @import 'styles/mixins/media';
+
+.root {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 1117px;
+  background-color: #fff;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 80px 145px;
+  background-color: #fff;
+}
+
+.title {
+  @extend %headline1;
+  text-transform: uppercase;
+  text-align: center;
+  color: #000;
+}

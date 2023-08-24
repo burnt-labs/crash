@@ -1,0 +1,20 @@
+// @import '@/styles/mixins/on-hover';
+
+.root {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.6s ease-in-out;
+  height: 48px;
+  width: 48px;
+}
+
+.root:hover {
+  transform: rotate(90deg);
+}
+
+.icon {
+  height: 48px;
+  width: 48px;
+}

@@ -1,0 +1,47 @@
+@import '../../styles/typography';
+// @import 'styles/mixins/media';
+
+.root {
+  background-image: url('../../assets/images/hero/hero_bg.jpg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+.container {
+  transform: translateY(10%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 872px;
+  width: 100%;
+}
+
+.title {
+  @extend %display1;
+  text-transform: uppercase;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 72px;
+  word-wrap: none;
+}
+
+.body {
+  @extend %body2;
+  margin-bottom: 32px;
+  text-align: center;
+  color: #fff;
+}
+
+.caption {
+  @extend %caption1;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 60px;
+}
