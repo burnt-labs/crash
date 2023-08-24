@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { ArrowButton } from '@/components/ArrowButton';
-import { useStackNavigator } from '@/providers/StackNavigator';
+import { useStackNavigator } from '@/providers/NavigatorProvider';
 
 import styles from './InitialScreen.module.scss';
 
