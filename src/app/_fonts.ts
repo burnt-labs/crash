@@ -1,8 +1,8 @@
-import { Orbitron } from 'next/font/google';
+import { Inter } from 'next/font/google';
 
-export const orbitron = Orbitron({
+export const inter = Inter({
   subsets: ['latin'],
   weight: ['500', '600', '700', '800'],
   display: 'swap',
-  variable: '--font-orbitron',
+  variable: '--font-inter',
 });

@@ -14,9 +14,12 @@
     "@cosmjs/proto-signing": "^0.31.1",
     "@cosmjs/stargate": "^0.31.1",
     "cosmjs-types": "^0.8.0",
+    "clsx": "^2.0.0",
+    "cz-conventional-changelog": "^3.3.0",
     "next": "13.4.19",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "stylelint-config-prettier-scss": "^1.0.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",

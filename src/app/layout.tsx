@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
-import { orbitron } from './_fonts';
+import { inter } from './_fonts';
+import { Header } from '@/components/Header';
+import { StackNavigatorProvider } from '@/providers/NavigatorProvider';
+
+import '../styles/global.scss';
 
 export const metadata: Metadata = {
   title: 'Burnt is down',
@@ -12,9 +16,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${orbitron.variable}`}>
+    <html lang="en" className={`${inter.variable}`}>
       <body>
-        <main>{children}</main>
+        <StackNavigatorProvider>
+          <Header />
+          <main>{children}</main>
+        </StackNavigatorProvider>
       </body>
     </html>
   );
