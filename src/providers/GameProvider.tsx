@@ -1,37 +1,85 @@
 'use client';
 
-import React, { createContext } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useTxSpamWorker } from '@/hooks/useTxSpamWorker';
-
-import Logo from '@/assets/icons/arrow.svg?inline';
-
-interface GameState {
-  ///
-}
+import { appConfig } from '@/config';
+import { XionService } from '@/services/xion';
 
 interface GameProviderProps {
   children: React.ReactNode;
 }
 
-const initialGameState: GameState = {};
+type GameState = 'initial' | 'setup' | 'game' | 'end';
+interface GameContextState {
+  state: GameState;
+  start: () => void;
+}
 
-export const GameContext = createContext<GameState>(initialGameState);
+const initialGameState: GameContextState = {
+  state: 'initial',
+  start: () => {
+    throw new Error('GameProvider not initialized');
+  },
+};
+
+export const GameContext = createContext<GameContextState>(initialGameState);
 
 export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
-  // const [gameState, setGameState] = useState<GameState>(initialGameState);
-  const { txHashes, start } = useTxSpamWorker({ duration: 200000 });
+  const [gameState, setGameState] = useState<GameState>('initial');
+  const { isDone, txHashes, startSpaming } = useTxSpamWorker({
+    duration: appConfig.txSpamDuration,
+  });
 
-  const handleWork = () => {
-    start();
-  };
+  const handleStartGame = useCallback(async () => {
+    try {
+      setGameState('setup');
 
-  console.log('txHashes', txHashes);
+      const xionService = new XionService(
+        appConfig.rpcUrl,
+        'draft twin rigid reunion either slight hint sell choice curtain harbor denial lazy salon open laugh pattern census blouse smooth refuse boring grow menu',
+      );
+      const wallet = await xionService.getWallet();
+      const { address } = await xionService.getCurrentAccountData();
+
+      console.log('Wallet: ', wallet.mnemonic, address);
+
+      await xionService.requestFunds(address);
+
+      setGameState('game');
+      startSpaming(wallet.mnemonic);
+    } catch (e) {
+      console.error(e);
+    }
+  }, [startSpaming]);
+
+  useEffect(() => {
+    if (isDone) {
+      setGameState('end');
+    }
+  }, [isDone]);
+
+  const value = useMemo(() => {
+    return {
+      state: gameState,
+      start: handleStartGame,
+      txHashes,
+    };
+  }, [gameState, handleStartGame, txHashes]);
 
   return (
-    <GameContext.Provider value={{}}>
-      <Logo />
-      <button onClick={handleWork}>Work</button>
+    <GameContext.Provider value={value}>
+      <button onClick={handleStartGame}>Start game</button>
       {children}
     </GameContext.Provider>
   );
+};
+
+export const useGameState = () => {
+  return React.useContext(GameContext);
 };

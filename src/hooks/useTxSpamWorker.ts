@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from 'react';
-import { DoneEvent, TxEvent } from '@/workers/send-transactions-worker';
+import { DoneEvent, StartEvent, TxEvent } from '@/workers/spam-worker';
 
 interface UseTxSpamWorkerProps {
   duration: number;
@@ -15,12 +15,14 @@ export const useTxSpamWorker = ({ duration }: UseTxSpamWorkerProps) => {
   useEffect(() => {
     if (typeof window.Worker !== 'undefined') {
       const workerInstance = new Worker(
-        new URL('../workers/send-transactions-worker.ts', import.meta.url),
+        new URL('../workers/spam-worker.ts', import.meta.url),
       );
 
       setWorker(workerInstance);
 
       workerInstance.onmessage = (event: MessageEvent<TxEvent | DoneEvent>) => {
+        console.log('event:', event.data);
+
         if (event.data.event === 'done') {
           setIsDone(false);
         }
@@ -44,16 +46,25 @@ export const useTxSpamWorker = ({ duration }: UseTxSpamWorkerProps) => {
     }
   }, []);
 
-  const handleStart = useCallback(() => {
-    if (isStarted) {
-      throw new Error('Worker is already started');
-    }
+  const handleStart = useCallback(
+    (mnemonic: string) => {
+      if (isStarted) {
+        throw new Error('Worker is already started');
+      }
 
-    if (worker) {
-      worker.postMessage(duration);
-      setIsStarted(true);
-    }
-  }, [duration, isStarted, worker]);
+      if (worker) {
+        const startEvent: StartEvent = {
+          event: 'start',
+          mnemonic,
+          duration,
+        };
 
-  return { isDone, txHashes, error, start: handleStart };
+        worker.postMessage(startEvent);
+        setIsStarted(true);
+      }
+    },
+    [duration, isStarted, worker],
+  );
+
+  return { isDone, txHashes, error, startSpaming: handleStart };
 };
