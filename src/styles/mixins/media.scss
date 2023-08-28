@@ -1,0 +1,62 @@
+// Breakpoints
+
+// mobile small <
+$breakpoint-xs: 320;
+// >= mobile <
+$breakpoint-md: 768;
+// >= tablet-landscape <
+$breakpoint-lg: 1440;
+// >= desktop
+$breakpoint-xl: 1920;
+// breakpoints exclusive
+
+@mixin mobile-only {
+  @media (max-width: #{$breakpoint-md - 1}px) {
+    @content;
+  }
+}
+
+@mixin tablet-only {
+  @media (min-width: #{$breakpoint-md}px) and (max-width: #{$breakpoint-lg - 1}px) {
+    @content;
+  }
+}
+
+// breakpoints cascading min
+
+@mixin mobile {
+  @media (min-width: #{$breakpoint-xs}px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (min-width: #{$breakpoint-md}px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$breakpoint-lg}px) {
+    @content;
+  }
+}
+
+// breakpoints cascading max
+@mixin desktop-down {
+  @media (max-width: #{$breakpoint-xl - 1}px) {
+    @content;
+  }
+}
+
+@mixin tablet-down {
+  @media (max-width: #{$breakpoint-lg - 1}px) {
+    @content;
+  }
+}
+
+@mixin mobile-down {
+  @media (max-width: #{$breakpoint-md - 1}px) {
+    @content;
+  }
+}
