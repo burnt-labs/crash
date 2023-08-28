@@ -13,7 +13,6 @@ export class XionService {
     try {
       const response = await fetch(appConfig.xionFaucetApiUrl, {
         method: 'POST',
-        mode: 'no-cors',
         headers: {
           'Content-Type': 'application/json',
         },
@@ -23,6 +22,8 @@ export class XionService {
       if (!response.ok) {
         throw new Error(response.statusText);
       }
+
+      console.log(`Funds requested for address ${address}!`);
     } catch (err) {
       console.error(err);
     }
@@ -49,6 +50,7 @@ export class XionService {
     );
 
     const [firstAccount] = await wallet.getAccounts();
+
     const { sequence, accountNumber } = await client.getSequence(
       firstAccount.address,
     );

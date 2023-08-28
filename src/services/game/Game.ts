@@ -80,14 +80,16 @@ export class Game extends TypedEventEmitter<GameEvents> {
       ),
     );
 
-    // console.log('Requesting funds...');
-    // await Promise.all(
-    //   this.wallets.map(async (wallet) => {
-    //     const [firstAccount] = await wallet.getAccounts();
+    console.log('Requesting funds...');
+    await Promise.all(
+      this.wallets.map(async (wallet) => {
+        console.log('mnemonic', wallet.mnemonic);
 
-    //     return XionService.requestFunds(firstAccount.address);
-    //   }),
-    // );
+        const [firstAccount] = await wallet.getAccounts();
+
+        return XionService.requestFunds(firstAccount.address);
+      }),
+    );
 
     console.log('Creating signers...');
     this.signers = await Promise.all(
@@ -115,7 +117,7 @@ export class Game extends TypedEventEmitter<GameEvents> {
     this.workers.forEach((worker, index) => {
       const startEvent: StartWorkerEvent = {
         event: 'start',
-        mnemonic: this.mnemonics[index],
+        mnemonic: this.mnemonics[index] || this.wallets[index].mnemonic,
         endTime: this.endTime,
         interval: this.interval,
       };
