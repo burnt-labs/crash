@@ -10,11 +10,15 @@
   width: 48px;
 }
 
-.root:hover {
+.root.animated:hover {
   transform: rotate(90deg);
 }
 
 .icon {
   height: 48px;
   width: 48px;
+}
+
+.active {
+  transform: rotate(90deg);
 }

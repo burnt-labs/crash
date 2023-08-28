@@ -111,6 +111,7 @@ export class Game extends TypedEventEmitter<GameEvents> {
     this.isFinished = false;
     this.endTime = Date.now() + this.duration;
 
+    console.log('Starting game...');
     this.workers.forEach((worker, index) => {
       const startEvent: StartWorkerEvent = {
         event: 'start',
@@ -145,7 +146,10 @@ export class Game extends TypedEventEmitter<GameEvents> {
   }
 
   restart() {
-    this.terminate();
+    this.isFinished = false;
+    this.workers = mapFrom(this.numberOfSigners, () => {
+      return new Worker(new URL('./worker.ts', import.meta.url));
+    });
     this.start();
   }
 

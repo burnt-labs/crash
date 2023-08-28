@@ -21,5 +21,6 @@ export const appConfig: AppConfig = {
   fundingAmount: '2000000uxion',
   mnemonics: [
     'draft twin rigid reunion either slight hint sell choice curtain harbor denial lazy salon open laugh pattern census blouse smooth refuse boring grow menu',
+    'version hire now unique witness short spike avoid shine family rotate velvet elegant journey gold hundred motor cloud pretty auto health dress escape usual',
   ],
 };

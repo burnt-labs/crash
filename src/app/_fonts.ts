@@ -6,3 +6,10 @@ export const inter = Inter({
   display: 'swap',
   variable: '--font-inter',
 });
+
+import localFont from 'next/font/local';
+
+export const respira = localFont({
+  src: '../fonts/Respira-Black.ttf',
+  variable: '--font-respira',
+});

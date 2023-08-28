@@ -4,11 +4,11 @@ import React, { createContext, useCallback, useMemo, useState } from 'react';
 
 interface StackNavigatorProviderProps {
   children: React.ReactNode;
+  initialScreen: StackNavigatorState;
 }
 
 export type StackNavigatorState =
   | 'InitialScreen'
-  | 'SetupScreen'
   | 'GameScreen'
   | 'GameOverScreen';
 
@@ -29,9 +29,10 @@ export const StackNavigatorProviderContext =
 
 export const StackNavigatorProvider: React.FC<StackNavigatorProviderProps> = ({
   children,
+  initialScreen,
 }) => {
   const [currentScreen, setCurrentScreen] =
-    useState<StackNavigatorState>('InitialScreen');
+    useState<StackNavigatorState>(initialScreen);
 
   const navigateTo = useCallback((screenName: StackNavigatorState) => {
     setCurrentScreen(screenName);

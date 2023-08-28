@@ -6,9 +6,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: animation 9s infinite cubic-bezier(0.4, 0, 0.2, 1);
   height: 100vh;
   z-index: 4;
+  background-color: #000;
+}
+
+.bg {
+  animation: fade 1s ease-in-out 0.5s both;
 }
 
 .container {
@@ -27,13 +31,7 @@
   margin-bottom: 80px;
   word-wrap: none;
   width: 100%;
-}
-
-.subtitle {
-  @extend %body1;
-  margin-bottom: 80px;
-  text-align: center;
-  color: #fff;
+  animation: fade 0.35s ease-in-out 1s both;
 }
 
 .caption {
@@ -41,8 +39,53 @@
   text-align: center;
   color: #fff;
   margin-bottom: 28px;
+  margin-top: 64px;
+  animation: fade 0.35s ease-in-out 3s both;
 }
 
-.digits {
-  @extend %digits2;
+.arrowButton {
+  animation: fade 0.35s ease-in-out 3s both;
+}
+
+.stats {
+  animation: fade 0.35s ease-in-out 2s both;
+  width: 100%;
+  max-width: 912px;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding: 0 30px;
+  gap: 20px;
+}
+
+.statsItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.statsValue {
+  margin: 0;
+  font-size: 48px;
+  font-style: normal;
+  font-weight: 800;
+  line-height: 60px;
+}
+
+.statsCaption {
+  @extend %caption1;
+  text-align: center;
+  color: #90959f;
+  margin-bottom: 16px;
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

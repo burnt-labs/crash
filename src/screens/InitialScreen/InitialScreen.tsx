@@ -1,45 +1,61 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import clsx from 'clsx';
 
 import { ArrowButton } from '@/components/ArrowButton';
-// import { useStackNavigator } from '@/providers/NavigatorProvider';
-import { AnimationBg } from '../AnimationBg';
+import { AnimationBg } from '@/components/AnimationBg';
+import { LoadingStage } from './LoadingStage';
+import { useGame } from '@/providers/GameProvider';
+import { FinalStage } from './FinalStage';
+import { randomInteger, scrollTo } from '@/utils';
+
+import loadingTexts from '@/data/loadingTexts';
 
 import styles from './InitialScreen.module.scss';
-// import { SimpleTimeline } from '@/components/Timeline/core/TimeLine';
-import { LoadingStage } from '@/screens/InitialScreen/LoadingStage';
+import { useStackNavigator } from '@/providers/NavigatorProvider';
 
 export const InitialScreen: React.FC = () => {
-  // const { navigateTo } = useStackNavigator();
-  // const refTimeline = useRef<SimpleTimeline | null>(null);
-  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const { initGame, startGame } = useGame();
+  const [isLoading, setIsLoading] = useState(false);
+  const [isGameInited, setIsGameInited] = useState(false);
+  const { navigateTo } = useStackNavigator();
 
-  // useEffect(() => {
-  //   // Example usage:
-  //   const timeline = new SimpleTimeline();
+  const [stageTexts, setStageTexts] = useState<string[]>([]);
 
-  //   timeline.add(document.getElementById('title')!, { opacity: 0 }, 1000);
-  //   timeline.add(
-  //     [document.getElementById('subtitle')!, document.getElementById('title')!],
-  //     { transform: 'scale(2)', opacity: 1 },
-  //     500,
-  //     200,
-  //   );
+  const handleStart = async () => {
+    let startIndex = randomInteger(0, loadingTexts.length);
 
-  //   refTimeline.current = timeline;
-  // }, []);
+    setStageTexts([
+      loadingTexts[startIndex],
+      loadingTexts[++startIndex % loadingTexts.length],
+      loadingTexts[++startIndex % loadingTexts.length],
+    ]);
 
-  const handleButtonClick = () => {
-    // Play the animation
-    // refTimeline.current?.play();
-    // navigateTo('SetupScreen');
-    setIsButtonClicked(true);
+    setIsLoading(true);
+    scrollTo(window.innerHeight * 4, 8000).then(() => {
+      setIsLoading(false);
+    });
+    await initGame();
+    setIsGameInited(true);
   };
+
+  const isFinished = isGameInited && !isLoading;
+
+  useEffect(() => {
+    if (isFinished) {
+      setTimeout(() => {
+        navigateTo('GameScreen');
+        startGame();
+      }, 2000);
+    }
+  }, [isFinished, navigateTo, startGame]);
 
   return (
     <section
-      className={`${styles.root} ${isButtonClicked ? styles.animate : ''}`}
+      className={clsx(styles.root, {
+        [styles.finished]: isFinished,
+      })}
     >
       <svg
         className={styles.line}
@@ -60,44 +76,14 @@ export const InitialScreen: React.FC = () => {
             and burn it down. During the next twenty seconds, you will see how
             fast and productive our blockchain.
           </p>
-          <ArrowButton
-            className={`${isButtonClicked ? styles.active : ''}`}
-            onClick={handleButtonClick}
-          />
+          <ArrowButton isActive={isLoading} onClick={handleStart} />
         </div>
       </div>
 
-      <LoadingStage
-        titleClassName={styles.lodingStageTitle1}
-        title={'WALLET IS CREATED'}
-      />
-      <LoadingStage
-        titleClassName={styles.lodingStageTitle2}
-        title={'FUNDS ACQUIRED'}
-      />
-      <LoadingStage
-        titleClassName={styles.lodingStageTitle3}
-        title={'Transactions spam began'}
-      />
-      <section className={styles.finalstage}>
-        <svg
-          className={styles.square}
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-        >
-          <rect
-            x="0"
-            y="0"
-            width="24"
-            height="24"
-            stroke="black"
-            stroke-width="2"
-          />
-        </svg>
-        <h2 className={styles.heading}>
-          The challenge unfolded, revealing its rapid pace,
-        </h2>
-      </section>
+      <LoadingStage title={stageTexts[0]} threshold={1} />
+      <LoadingStage title={stageTexts[1]} threshold={2} />
+      <LoadingStage title={stageTexts[2]} threshold={3} />
+      <FinalStage className={styles.finalStage} thresholds={[3.8, 3.8]} />
     </section>
   );
 };

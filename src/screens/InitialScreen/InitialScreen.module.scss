@@ -5,12 +5,13 @@
 
   position: relative;
   width: 100%;
-  min-height: 100%;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
   background-color: #fff;
+  overflow: hidden;
 }
 
 .hero {
@@ -20,8 +21,8 @@
   height: 100vh;
   width: 100%;
   position: relative;
-  animation: animation 9s infinite cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 2;
+  background-color: #000;
 }
 
 .container {
@@ -58,118 +59,28 @@
 }
 
 .line {
-  position: absolute;
+  position: fixed;
   z-index: 1;
   top: 0;
   left: 50%;
-  height: 100%;
-  transform: translate(50%, calc(-100% + 100vh));
+  height: 30vh;
+  transform: translate(50%, 0);
   width: 2px;
 }
 
-.root.animate {
-  animation: move-up-section var(--moving-animation-duration) both;
-}
-
-.lodingStageTitle {
-  // opacity: 0;
-}
-
-.animate {
+.finished {
   .line {
-    animation-name: move-line;
-    animation-duration: 7.5s;
-    animation-fill-mode: both;
-    animation-direction: normal;
-    animation-timing-function: linear;
-    animation-delay: 0.5s;
+    transition: all 0.6s ease-in-out 1s;
     opacity: 0;
   }
 
-  .lodingStageTitle1 {
+  .finalStage {
+    transition: all 0.6s ease-in-out 2s;
     opacity: 0;
-    animation: fade-text 300ms both 2s;
+
+    svg {
+      transition: all 0.6s ease-in-out 1s;
+      opacity: 0;
+    }
   }
-
-  .lodingStageTitle2 {
-    animation: fade-text 300ms both 4s;
-    opacity: 0;
-  }
-
-  .lodingStageTitle3 {
-    animation: fade-text 300ms both 6s;
-    opacity: 0;
-  }
-}
-
-@keyframes move-up-section {
-  from {
-    transform: translate(0, 0);
-  }
-
-  to {
-    transform: translate(0, -450vh);
-  }
-}
-
-@keyframes move-line {
-  0% {
-    transform: translateY(calc(-100% + 100vh));
-    opacity: 1;
-  }
-
-  25% {
-    transform: translateY(calc(-100% + 150vh));
-    opacity: 1;
-  }
-
-  50% {
-    transform: translateY(calc(-100% + 250vh));
-    opacity: 1;
-  }
-
-  75% {
-    transform: translateY(calc(-100% + 350vh));
-    opacity: 1;
-  }
-
-  100% {
-    transform: translateY(calc(-100% + 475vh));
-    opacity: 1;
-  }
-}
-
-@keyframes fade-text {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-.active {
-  transform: rotate(90deg);
-}
-
-.finalstage {
-  padding-top: 45vh;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  height: 100vh;
-  background-color: transparent;
-}
-
-.square {
-  max-width: 24px;
-  max-height: 24px;
-  transform: rotate(45deg);
-}
-
-.heading {
-  color: #000;
 }

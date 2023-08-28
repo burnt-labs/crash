@@ -1,30 +1,32 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { useStackNavigator } from '@/providers/NavigatorProvider';
-import Logo from '@/assets/images/header/logo.svg?inline';
-import { Timer } from '@/components/Timer';
+import Logo from '@/assets/images/logo.svg?inline';
 
 import styles from './Header.module.scss';
 
-const mapScreenToClassName: Record<string, string> = {
-  InitialScreen: styles.light,
-  SetupScreen: styles.dark,
-  GameScreen: styles.dark,
-  GameOverScreen: styles.light,
-};
-
 export const Header: React.FC = () => {
-  const { currentScreen } = useStackNavigator();
+  const [variant, setVariant] = useState<'default' | 'light' | 'dark'>(
+    'default',
+  );
+
+  useEffect(() => {
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > window.innerHeight - 0.15 * window.innerHeight) {
+        setVariant('dark');
+      } else {
+        setVariant('default');
+      }
+    });
+  }, []);
 
   return (
-    <header className={clsx(styles.root, mapScreenToClassName[currentScreen])}>
+    <header className={clsx(styles.root, styles[variant])}>
       <div className={styles.container}>
         <a href="/" className={styles.link}>
           <Logo />
         </a>
-        <Timer />
       </div>
     </header>
   );

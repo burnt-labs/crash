@@ -7,17 +7,27 @@
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 10;
   height: 140px;
+  z-index: 100;
 }
 
 .dark {
-  border-radius: 56px;
-  background: rgba(255, 255, 255, 0.3);
-  backdrop-filter: blur(5px);
+  .link {
+    background: rgba(255, 255, 255, 0.3);
+  }
 
   svg {
-    fill: #000;
+    color: #000;
+  }
+}
+
+.light {
+  .link {
+    background: rgba(0, 0, 0, 0.3);
+  }
+
+  svg {
+    color: #fff;
   }
 }
 
@@ -33,8 +43,11 @@
   padding: 20px 28px;
   margin-top: 56px;
   border-radius: 44px;
+  border-radius: 56px;
+  backdrop-filter: blur(5px);
 
   svg {
-    max-width: 142px;
+    width: 100px;
+    height: 40px;
   }
 }

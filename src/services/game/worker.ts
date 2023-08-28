@@ -36,8 +36,10 @@ self.addEventListener(
 
     let count = 0;
 
+    const promises: Promise<void>[] = [];
+
     while (Date.now() < endTime) {
-      signer
+      const promise = signer
         .sendTokens(appConfig.xionFaucetAddress, TRANSFER_AMOUNT)
         .then((hash: string) => {
           const txEvent: TxWorkerEvent = { event: 'tx', hash };
@@ -47,8 +49,12 @@ self.addEventListener(
         })
         .catch(() => console.log('Error sending tx'));
 
+      promises.push(promise);
+
       await wait(interval);
     }
+
+    await Promise.allSettled(promises);
 
     const finishEvent: FinishedWorkerEvent = { event: 'finished', count };
 

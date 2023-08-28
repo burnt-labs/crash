@@ -5,7 +5,6 @@ import { TxCardItem, TxCard } from '@/components/TxCard/TxCard';
 import { useGame } from '@/providers/GameProvider';
 
 import styles from './GameScreen.module.scss';
-import { Timer } from '@/components/Timer';
 
 function shuffleArray(
   array: Array<{
@@ -49,15 +48,9 @@ interface GameScreenProps {
 }
 
 export const GameScreen: React.FC<GameScreenProps> = () => {
-  const [isGameStarted, setIsGameStarted] = React.useState(false);
-  const [isGameFinished, setIsGameFinished] = React.useState(false);
-  const { getGameInstance, initGame, startGame } = useGame();
+  const { getGameInstance } = useGame();
   const [txCards, setTxCards] = React.useState<TxCardItem[]>([]);
-
-  const handleStartGame = async () => {
-    await initGame();
-    startGame();
-  };
+  const { navigateTo } = useStackNavigator();
 
   useEffect(() => {
     const game = getGameInstance();
@@ -75,27 +68,22 @@ export const GameScreen: React.FC<GameScreenProps> = () => {
     });
 
     game.on('started', () => {
-      setIsGameStarted(true);
       console.log('Game started');
     });
 
     game.on('finished', () => {
-      setIsGameFinished(true);
+      setTimeout(() => {
+        navigateTo('GameOverScreen');
+      }, 6000);
       console.log('Game finished');
     });
-  }, [getGameInstance]);
-
-  console.log('isGameFinished', isGameFinished);
+  }, [getGameInstance, navigateTo]);
 
   return (
     <section className={styles.root}>
-      <button onClick={handleStartGame}>Start game</button>
-
       {txCards.map(({ hash, x, y }) => (
         <TxCard key={hash} hash={hash} x={x} y={y} size={20} />
       ))}
-
-      {isGameStarted && <Timer className={styles.timer} timeout={20} />}
     </section>
   );
 };
