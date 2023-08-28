@@ -108,7 +108,7 @@
   }
 
   to {
-    transform: translate(0, -100%);
+    transform: translate(0, -450vh);
   }
 }
 
@@ -134,7 +134,7 @@
   }
 
   100% {
-    transform: translateY(0.01%);
+    transform: translateY(calc(-100% + 475vh));
     opacity: 1;
   }
 }
@@ -147,4 +147,29 @@
   to {
     opacity: 1;
   }
+}
+
+.active {
+  transform: rotate(90deg);
+}
+
+.finalstage {
+  padding-top: 45vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  background-color: transparent;
+}
+
+.square {
+  max-width: 24px;
+  max-height: 24px;
+  transform: rotate(45deg);
+}
+
+.heading {
+  color: #000;
 }

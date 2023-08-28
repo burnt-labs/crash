@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+
 import { ArrowButton } from '@/components/ArrowButton';
 // import { useStackNavigator } from '@/providers/NavigatorProvider';
 import { AnimationBg } from '../AnimationBg';
@@ -45,7 +46,7 @@ export const InitialScreen: React.FC = () => {
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
       >
-        <line x1="1" y1="0" x2="1" y2="100%" stroke="black" />
+        <line x1="0" y1="0" x2="1" y2="100%" stroke="black" />
       </svg>
       <div className={styles.hero}>
         <AnimationBg />
@@ -59,7 +60,10 @@ export const InitialScreen: React.FC = () => {
             and burn it down. During the next twenty seconds, you will see how
             fast and productive our blockchain.
           </p>
-          <ArrowButton onClick={handleButtonClick} />
+          <ArrowButton
+            className={`${isButtonClicked ? styles.active : ''}`}
+            onClick={handleButtonClick}
+          />
         </div>
       </div>
 
@@ -75,6 +79,25 @@ export const InitialScreen: React.FC = () => {
         titleClassName={styles.lodingStageTitle3}
         title={'Transactions spam began'}
       />
+      <section className={styles.finalstage}>
+        <svg
+          className={styles.square}
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+        >
+          <rect
+            x="0"
+            y="0"
+            width="24"
+            height="24"
+            stroke="black"
+            stroke-width="2"
+          />
+        </svg>
+        <h2 className={styles.heading}>
+          The challenge unfolded, revealing its rapid pace,
+        </h2>
+      </section>
     </section>
   );
 };
