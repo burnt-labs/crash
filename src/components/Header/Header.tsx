@@ -4,6 +4,7 @@ import React from 'react';
 import clsx from 'clsx';
 import { useStackNavigator } from '@/providers/NavigatorProvider';
 import Logo from '@/assets/images/header/logo.svg?inline';
+import { Timer } from '@/components/Timer';
 
 import styles from './Header.module.scss';
 
@@ -23,6 +24,7 @@ export const Header: React.FC = () => {
         <a href="/" className={styles.link}>
           <Logo />
         </a>
+        <Timer />
       </div>
     </header>
   );

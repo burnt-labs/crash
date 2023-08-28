@@ -8,6 +8,7 @@
   align-items: center;
   animation: animation 9s infinite cubic-bezier(0.4, 0, 0.2, 1);
   height: 100vh;
+  z-index: 4;
 }
 
 .container {

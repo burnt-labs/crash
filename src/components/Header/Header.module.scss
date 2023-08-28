@@ -11,14 +11,11 @@
   height: 140px;
 }
 
-.light {
-  .link {
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(5px);
-  }
-}
-
 .dark {
+  border-radius: 56px;
+  background: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(5px);
+
   svg {
     fill: #000;
   }
@@ -29,6 +26,7 @@
   justify-content: center;
   align-items: center;
   width: 100%;
+  gap: 12px;
 }
 
 .link {

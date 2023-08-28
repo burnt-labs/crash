@@ -1,19 +1,16 @@
 html {
-  background-color: #161616;
+  background-color: #fff;
   color: #f9f9fb;
   font-family: var(--font-inter), sans-serif;
   font-size: 16px;
   font-weight: normal;
   height: 100%;
   min-width: 320px;
-  overflow-x: hidden;
   -webkit-tap-highlight-color: transparent;
-  scroll-behavior: auto;
 }
 
 body {
   margin: 0;
-  overflow-x: hidden;
   position: relative;
 }
 
@@ -56,9 +53,6 @@ html {
 
 body {
   line-height: 1;
-  //text-rendering: optimizeLegibility;
-  text-size-adjust: 100%;
-  text-size-adjust: 100%;
   text-size-adjust: 100%;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
