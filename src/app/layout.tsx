@@ -1,7 +1,6 @@
 import type { Metadata } from 'next';
 import { inter } from './_fonts';
-import { Header } from '@/components/Header';
-import { StackNavigatorProvider } from '@/providers/NavigatorProvider';
+import { MainLayout } from '@/components/MainLayout';
 
 import '../styles/global.scss';
 
@@ -18,10 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable}`}>
       <body>
-        <StackNavigatorProvider>
-          <Header />
-          <main>{children}</main>
-        </StackNavigatorProvider>
+        <MainLayout>{children}</MainLayout>
       </body>
     </html>
   );
