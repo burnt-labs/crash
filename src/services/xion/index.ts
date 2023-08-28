@@ -1,2 +1,2 @@
 export { XionService } from './XionService';
-export * from './utils';
+export { XionSigner } from './XionSigner';

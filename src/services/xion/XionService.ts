@@ -1,103 +1,65 @@
-import { SignerData, SigningStargateClient } from '@cosmjs/stargate';
-import {
-  AccountData,
-  Coin,
-  DirectSecp256k1HdWallet,
-  EncodeObject,
-} from '@cosmjs/proto-signing';
-import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import { appConfig } from '@/config';
-import { proxymise } from '@/utils/proxy';
-import { createWallet, createRpcClient } from './utils';
-import {
-  GAS_AMOUNT_TOKEN_TRANSFER,
-  GAS_LIMIT_TOKEN_TRANSFER,
-} from '@/constants';
+import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
+import { SignerData, SigningStargateClient } from '@cosmjs/stargate';
+import { XionSigner } from './XionSigner';
 
 export class XionService {
-  private readonly faucetApiUrl: string = appConfig.faucetApiUrl;
-  private readonly client: SigningStargateClient;
-  private readonly wallet: DirectSecp256k1HdWallet;
+  public static async requestFunds(
+    address: string,
+    coin: string = '2000000uxion',
+  ): Promise<void> {
+    console.log(`Requesting funds for address ${address}...`);
 
-  constructor(rpcUrl: string, mnemonic?: string) {
-    this.wallet = proxymise(createWallet(mnemonic));
-    this.client = proxymise(createRpcClient(rpcUrl, this.wallet));
+    try {
+      const response = await fetch(appConfig.xionFaucetApiUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ address, coins: [coin] }),
+      });
+
+      if (!response.ok) {
+        throw new Error(response.statusText);
+      }
+    } catch (err) {
+      console.error(err);
+    }
   }
 
-  async sendTokens(
-    fromAddress: string,
-    toAddress: string,
-    amount: number,
-    signerData?: SignerData,
-  ) {
-    const sendMsg: EncodeObject = {
-      typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-      value: {
-        fromAddress,
-        toAddress,
-        amount: [{ denom: 'uxion', amount: amount.toString() }],
-      },
-    };
+  public static async createWallet(
+    mnemonic?: string,
+  ): Promise<DirectSecp256k1HdWallet> {
+    const walletOptions = { prefix: 'xion' };
 
-    const fee = {
-      amount: [
-        { denom: 'uxion', amount: GAS_AMOUNT_TOKEN_TRANSFER.toString() },
-      ],
-      gas: GAS_LIMIT_TOKEN_TRANSFER,
-    };
-
-    const txRaw = await this.client.sign(
-      fromAddress,
-      [sendMsg],
-      fee,
-      '',
-      signerData,
-    );
-
-    const txBytes = TxRaw.encode(txRaw).finish();
-
-    return this.client.broadcastTxSync(txBytes);
-  }
-
-  async getWallet(): Promise<DirectSecp256k1HdWallet> {
-    return this.wallet;
-  }
-
-  async getCurrentAccountData(): Promise<AccountData> {
-    const [accountData] = await this.wallet.getAccounts();
-
-    return accountData;
-  }
-
-  async getSignerData(address: string): Promise<SignerData> {
-    const chainId = await this.client.getChainId();
-    const { accountNumber, sequence } = await this.client.getSequence(address);
-
-    return {
-      accountNumber,
-      sequence,
-      chainId,
-    };
-  }
-
-  async getBalance(address: string, searchDenom = 'uxion'): Promise<Coin> {
-    return this.client.getBalance(address, searchDenom);
-  }
-
-  async requestFunds(address: string): Promise<void> {
-    const response = await fetch(this.faucetApiUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ address, coins: ['2000000uxion'] }),
-    });
-
-    if (!response.ok) {
-      console.log(response);
-      throw new Error('Failed to request funds');
+    if (!mnemonic) {
+      return DirectSecp256k1HdWallet.generate(24, walletOptions);
     }
 
-    return;
+    return DirectSecp256k1HdWallet.fromMnemonic(mnemonic, walletOptions);
+  }
+
+  public static async createXionSigner(
+    wallet: DirectSecp256k1HdWallet,
+  ): Promise<XionSigner> {
+    const client = await SigningStargateClient.connectWithSigner(
+      appConfig.xionRpcUrl,
+      wallet,
+    );
+
+    const [firstAccount] = await wallet.getAccounts();
+    const { sequence, accountNumber } = await client.getSequence(
+      firstAccount.address,
+    );
+    const chainId = await client.getChainId();
+
+    const initialSenderData: SignerData = {
+      chainId,
+      accountNumber,
+      sequence,
+    };
+
+    return new XionSigner(firstAccount.address, initialSenderData, client);
   }
 }
