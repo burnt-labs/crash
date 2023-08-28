@@ -3,6 +3,7 @@
 import React, { useEffect } from 'react';
 import { TxCardItem, TxCard } from '@/components/TxCard/TxCard';
 import { useGame } from '@/providers/GameProvider';
+import { useStackNavigator } from '@/providers/NavigatorProvider';
 
 import styles from './GameScreen.module.scss';
 
