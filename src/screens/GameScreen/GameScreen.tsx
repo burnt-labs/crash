@@ -55,6 +55,7 @@ export const GameScreen: React.FC<GameScreenProps> = () => {
       {txCards.map(({ hash, x, y }) => (
         <TxBox key={hash} hash={hash} x={x} y={y} size={20} />
       ))}
+      <p className={styles.hint}>Click anywhere to send transaction</p>
       {isGameStarted && (
         <Timer
           className={styles.timer}

@@ -18,7 +18,7 @@
     position: absolute;
     content: '';
     border-radius: 44px;
-    background: rgba(0, 0, 0, 0.3);
+    background: rgba(255, 255, 255, 0.3);
     backdrop-filter: blur(5px);
     z-index: -1;
   }
@@ -26,7 +26,7 @@
 
 .count {
   @extend %body3;
-  color: #fff;
+  color: #000;
   text-align: center;
   font-weight: 700;
   text-transform: uppercase;
