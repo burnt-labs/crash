@@ -8,7 +8,7 @@ import { AnimationBg } from '@/components/AnimationBg';
 import { LoadingStage } from './LoadingStage';
 import { useGame } from '@/providers/GameProvider';
 import { FinalStage } from './FinalStage';
-import { easeOutSine, randomInteger, scrollTo } from '@/utils';
+import { randomInteger, scrollTo } from '@/utils';
 
 import loadingTexts from '@/data/loadingTexts';
 
@@ -33,7 +33,7 @@ export const InitialScreen: React.FC = () => {
     ]);
 
     setIsLoading(true);
-    scrollTo(window.innerHeight * 4, 8000, easeOutSine).then(() => {
+    scrollTo(window.innerHeight * 4, 16000).then(() => {
       setIsLoading(false);
     });
     await initGame();
@@ -83,10 +83,10 @@ export const InitialScreen: React.FC = () => {
         </div>
       </div>
 
-      <LoadingStage title={stageTexts[0]} threshold={0.77} />
-      <LoadingStage title={stageTexts[1]} threshold={1.9} />
+      <LoadingStage title={stageTexts[0]} threshold={1} />
+      <LoadingStage title={stageTexts[1]} threshold={2} />
       <LoadingStage title={stageTexts[2]} threshold={3} />
-      <FinalStage className={styles.finalStage} thresholds={[3.8, 3.8]} />
+      <FinalStage className={styles.finalStage} thresholds={[3.8, 4]} />
     </section>
   );
 };

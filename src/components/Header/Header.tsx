@@ -18,7 +18,7 @@ export const Header: React.FC = () => {
 
         setTimeout(() => {
           setVariant('default');
-        }, 9000);
+        }, 17000);
       }
     };
 

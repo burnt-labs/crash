@@ -16,14 +16,14 @@ export const metadata: Metadata = {
     siteName: 'Burnt it down',
     images: [
       {
-        url: '/banner.png',
+        url: '/banner.jpg',
       },
     ],
   },
   twitter: {
     title: 'Burnt it down',
     description: 'The first L1 blockchain purpose built for consumer adoption.',
-    images: ['/banner.png'],
+    images: ['/banner.jpg'],
     card: 'summary_large_image',
     creator: '@burnt_',
   },
