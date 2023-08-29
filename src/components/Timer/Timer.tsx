@@ -10,13 +10,11 @@ interface TimerProps {
 
 export const Timer: React.FC<TimerProps> = ({ className, timeout }) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const [count, setCount] = useState(timeout);
+  const [count, setCount] = useState(() => Math.ceil(timeout / 1000));
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCount((prevCount) => prevCount - 1);
-
-      console.log('count', count, count <= 0);
     }, 1000);
 
     timerRef.current = interval;
@@ -30,5 +28,9 @@ export const Timer: React.FC<TimerProps> = ({ className, timeout }) => {
     }
   }, [count]);
 
-  return <div className={clsx(styles.timer, className)}>{count} s</div>;
+  return (
+    <div className={clsx(styles.timer, className)}>
+      <span className={styles.count}>{count} s</span>
+    </div>
+  );
 };

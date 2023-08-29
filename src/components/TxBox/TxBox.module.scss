@@ -1,8 +1,9 @@
 .root {
   display: block;
   background-color: #131416;
-  animation: zoomIn 5s ease both;
+  animation: zoomIn 5s cubic-bezier(0.25, 1, 0.5, 1) both;
   position: absolute;
+  user-select: none;
 }
 
 .content {
@@ -18,22 +19,16 @@
   width: 100%;
   text-align: center;
 
-  animation: hide 0.5s ease both 5.5s;
+  animation: hide 0.5s ease both 4s;
 }
 
 @keyframes zoomIn {
   0% {
     transform: scale(0);
-    opacity: 0;
-  }
-
-  50% {
-    opacity: 0.3;
   }
 
   100% {
     transform: scale(1);
-    opacity: 1;
   }
 }
 

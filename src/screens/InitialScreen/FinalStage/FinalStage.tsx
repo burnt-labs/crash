@@ -24,7 +24,7 @@ export const FinalStage: React.FC<FinalStageProps> = ({
   }, []);
 
   return (
-    <section className={clsx(styles.root, className)}>
+    <div className={clsx(styles.root, className)}>
       <svg
         className={clsx(styles.square, { [styles.show]: isShowSquare })}
         xmlns="http://www.w3.org/2000/svg"
@@ -42,6 +42,6 @@ export const FinalStage: React.FC<FinalStageProps> = ({
       <h2 className={clsx(styles.heading, { [styles.show]: isShowSquare })}>
         Begin
       </h2>
-    </section>
+    </div>
   );
 };

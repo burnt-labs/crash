@@ -12,13 +12,19 @@ export const Header: React.FC = () => {
   );
 
   useEffect(() => {
-    window.addEventListener('scroll', () => {
+    const handleScroll = () => {
       if (window.scrollY > window.innerHeight - 0.15 * window.innerHeight) {
         setVariant('dark');
-      } else {
-        setVariant('default');
+
+        setTimeout(() => {
+          setVariant('default');
+        }, 9000);
       }
-    });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   return (

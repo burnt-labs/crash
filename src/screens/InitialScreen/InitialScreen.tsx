@@ -8,7 +8,7 @@ import { AnimationBg } from '@/components/AnimationBg';
 import { LoadingStage } from './LoadingStage';
 import { useGame } from '@/providers/GameProvider';
 import { FinalStage } from './FinalStage';
-import { randomInteger, scrollTo } from '@/utils';
+import { easeOutSine, randomInteger, scrollTo } from '@/utils';
 
 import loadingTexts from '@/data/loadingTexts';
 
@@ -16,7 +16,7 @@ import styles from './InitialScreen.module.scss';
 import { useStackNavigator } from '@/providers/NavigatorProvider';
 
 export const InitialScreen: React.FC = () => {
-  const { initGame, startGame } = useGame();
+  const { initGame } = useGame();
   const [isLoading, setIsLoading] = useState(false);
   const [isGameInited, setIsGameInited] = useState(false);
   const { navigateTo } = useStackNavigator();
@@ -33,7 +33,7 @@ export const InitialScreen: React.FC = () => {
     ]);
 
     setIsLoading(true);
-    scrollTo(window.innerHeight * 4, 8000).then(() => {
+    scrollTo(window.innerHeight * 4, 8000, easeOutSine).then(() => {
       setIsLoading(false);
     });
     await initGame();
@@ -44,12 +44,15 @@ export const InitialScreen: React.FC = () => {
 
   useEffect(() => {
     if (isFinished) {
+      if (history.scrollRestoration) {
+        history.scrollRestoration = 'manual';
+      }
+
       setTimeout(() => {
         navigateTo('GameScreen');
-        startGame();
-      }, 2000);
+      }, 3000);
     }
-  }, [isFinished, navigateTo, startGame]);
+  }, [isFinished, navigateTo]);
 
   return (
     <section
@@ -76,12 +79,12 @@ export const InitialScreen: React.FC = () => {
             and burn it down. During the next twenty seconds, you will see how
             fast and productive our blockchain.
           </p>
-          <ArrowButton isActive={isLoading} onClick={handleStart} />
+          <ArrowButton isAnimated isActive={isLoading} onClick={handleStart} />
         </div>
       </div>
 
-      <LoadingStage title={stageTexts[0]} threshold={1} />
-      <LoadingStage title={stageTexts[1]} threshold={2} />
+      <LoadingStage title={stageTexts[0]} threshold={0.77} />
+      <LoadingStage title={stageTexts[1]} threshold={1.9} />
       <LoadingStage title={stageTexts[2]} threshold={3} />
       <FinalStage className={styles.finalStage} thresholds={[3.8, 3.8]} />
     </section>

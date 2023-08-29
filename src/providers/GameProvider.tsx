@@ -1,14 +1,14 @@
 'use client';
 
 import React, { createContext, useMemo, useState, useCallback } from 'react';
-import { Game } from '@/services/game';
+import { GameClicker } from '@/services/game';
 import { appConfig } from '@/config';
 
 interface GameProviderProps {
   children: React.ReactNode;
 }
 interface GameContextState {
-  getGameInstance: () => Game;
+  getGameInstance: () => GameClicker;
   initGame: () => Promise<void>;
   startGame: () => void;
 }
@@ -28,14 +28,8 @@ const initialGameState: GameContextState = {
 export const GameContext = createContext<GameContextState>(initialGameState);
 
 export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
-  const [gameInstance] = useState<Game>(
-    () =>
-      new Game(
-        appConfig.numberOfSigners || appConfig.mnemonics?.length || 0,
-        appConfig.txSpamDuration,
-        appConfig.txSpamInterval,
-        appConfig.mnemonics,
-      ),
+  const [gameInstance] = useState<GameClicker>(
+    () => new GameClicker(appConfig.txSpamDuration, appConfig.mnemonics),
   );
 
   const handleInitGame = useCallback(async () => {
