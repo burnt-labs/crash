@@ -35,7 +35,7 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = () => {
             <span className={styles.statsValue}>
               {getGameInstance().getState().txCount}
             </span>
-            <span className={styles.statsCaption}>Completely transactions</span>
+            <span className={styles.statsCaption}>Transactions sent</span>
           </div>
           <div className={styles.statsItem}>
             <span className={styles.statsValue}>20s</span>
