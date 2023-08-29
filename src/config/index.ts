@@ -8,6 +8,7 @@ interface AppConfig {
   fundingAmount: string;
   mnemonics?: string[];
   numberOfSigners?: number;
+  siteUrl: string;
 }
 
 export const appConfig: AppConfig = {
@@ -19,6 +20,7 @@ export const appConfig: AppConfig = {
   txSpamInterval: 50,
   numberOfSigners: 2,
   fundingAmount: '500000uxion',
+  siteUrl: process.env.NEXT_PUBLIC_SITE_URL as string,
   // mnemonics: [
   //   'fatigue later mass devote case over home return oyster guess warrior correct much tip torch robot acid coast response supply emerge antique replace faint',
   // ],
