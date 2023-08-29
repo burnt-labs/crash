@@ -1,4 +1,5 @@
 @import '@/styles/typography';
+@import '@/styles/mixins/media';
 
 .root {
   position: relative;
@@ -9,6 +10,7 @@
   height: 100vh;
   z-index: 4;
   background-color: #131416;
+  padding: 0 24px;
 }
 
 .bg {
@@ -24,23 +26,39 @@
 }
 
 .title {
-  @extend %display1;
+  @extend %display2;
   text-transform: uppercase;
   text-align: center;
   color: #fff;
-  margin-bottom: 80px;
+  margin-bottom: 32px;
+  margin-top: 113px;
   word-wrap: none;
   width: 100%;
   animation: fade 0.35s ease-in-out 1s both;
+  max-width: 372px;
+
+  @include tablet {
+    margin-bottom: 64px;
+    max-width: 672px;
+    margin-top: 0;
+  }
+
+  @include desktop {
+    max-width: 912px;
+  }
 }
 
 .caption {
   @extend %body2;
   text-align: center;
   color: #fff;
-  margin-bottom: 28px;
-  margin-top: 64px;
+  margin-bottom: 20px;
+  margin-top: 32px;
   animation: fade 0.35s ease-in-out 3s both;
+
+  @include tablet {
+    margin-top: 64px;
+  }
 }
 
 .arrowButton {
@@ -52,32 +70,40 @@
   width: 100%;
   max-width: 912px;
   display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  padding: 0 30px;
-  gap: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+
+  @include tablet {
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: 0 30px;
+    gap: 20px;
+  }
 }
 
 .statsItem {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
+  gap: 4px;
+
+  @include tablet {
+    gap: 12px;
+  }
 }
 
 .statsValue {
+  @extend %digits1;
   margin: 0;
-  font-size: 48px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: 60px;
 }
 
 .statsCaption {
   @extend %caption1;
   text-align: center;
   color: #90959f;
-  margin-bottom: 16px;
 }
 
 @keyframes fade {

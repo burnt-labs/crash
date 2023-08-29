@@ -1,4 +1,5 @@
 @import '@/styles/typography';
+@import '@/styles/mixins/media';
 
 .root {
   --moving-animation-duration: 16s;
@@ -23,6 +24,7 @@
   position: relative;
   z-index: 2;
   background-color: #131416;
+  padding: 0 24px;
 }
 
 .container {
@@ -31,6 +33,14 @@
   flex-direction: column;
   align-items: center;
   width: 100%;
+
+  @include tablet {
+    max-width: 656px;
+  }
+
+  @include desktop {
+    max-width: 872px;
+  }
 }
 
 .title {
@@ -38,24 +48,51 @@
   text-transform: uppercase;
   text-align: center;
   color: #fff;
-  margin-bottom: 72px;
+  margin-bottom: 28px;
+  word-wrap: none;
   width: 100%;
+
+  @include tablet {
+    margin-bottom: 64px;
+    max-width: 656px;
+  }
+
+  @include desktop {
+    margin-bottom: 72px;
+    max-width: 872px;
+  }
 }
 
 .subtitle {
   @extend %body2;
-  margin-bottom: 32px;
+  margin-bottom: 16px;
   text-align: center;
   color: #fff;
   max-width: 875px;
+
+  @include tablet {
+    margin-bottom: 24px;
+  }
+
+  @include desktop {
+    margin-bottom: 32px;
+  }
 }
 
 .caption {
   @extend %caption1;
   text-align: center;
   color: #fff;
-  margin-bottom: 60px;
   max-width: 875px;
+  margin-bottom: 28px;
+
+  @include tablet {
+    margin-bottom: 48px;
+  }
+
+  @include desktop {
+    margin-bottom: 60px;
+  }
 }
 
 .line {

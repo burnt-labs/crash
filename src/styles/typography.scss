@@ -1,17 +1,49 @@
+@import '@/styles/mixins/media';
+
 @mixin display1 {
   font-family: var(--font-inter);
-  font-size: 117px;
+  font-size: 64px;
   font-style: normal;
   font-weight: 700;
-  line-height: 129.915%;
+  line-height: 118.75%;
+
+  @include tablet {
+    font-size: 88px;
+    line-height: 122.727%;
+  }
+
+  @include desktop {
+    font-size: 117px;
+    line-height: 129.915%;
+  }
+}
+
+@mixin display2 {
+  font-size: 27px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 148.148%;
+  @include tablet {
+    font-size: 64px;
+    line-height: 118.75%;
+  }
+
+  @include desktop {
+    font-size: 80px;
+    line-height: 140%;
+  }
 }
 
 @mixin headline1 {
   font-family: var(--font-inter);
-  font-size: 28px;
+  font-size: 24px;
   font-style: normal;
   font-weight: 700;
-  line-height: 157.143%;
+  line-height: 166.667%;
+  @include tablet {
+    font-size: 28px;
+    line-height: 157.143%;
+  }
 }
 
 @mixin body1 {
@@ -24,10 +56,19 @@
 
 @mixin body2 {
   font-family: var(--font-inter);
-  font-size: 25px;
+  font-size: 18px;
   font-style: normal;
   font-weight: 400;
-  line-height: 160%;
+  line-height: 155.556%;
+  @include tablet {
+    font-size: 20px;
+    line-height: 160%;
+  }
+
+  @include desktop {
+    font-size: 25px;
+    line-height: 160%;
+  }
 }
 
 @mixin body3 {
@@ -40,26 +81,33 @@
 
 @mixin caption1 {
   font-family: var(--font-inter);
-  font-size: 15px;
+  font-size: 13px;
   font-style: normal;
   font-weight: 400;
-  line-height: 186.667%;
+  line-height: 184.615%;
+
+  @include tablet {
+    font-size: 15px;
+    line-height: 186.667%;
+  }
 }
 
 @mixin digits1 {
   font-family: var(--font-inter);
-  font-size: 64px;
+  font-size: 20px;
   font-style: normal;
   font-weight: 800;
-  line-height: 125%;
-}
+  line-height: 140%;
 
-@mixin digits2 {
-  font-family: var(--font-inter);
-  font-size: 32px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: 150%;
+  @include tablet {
+    font-size: 36px;
+    line-height: 48px;
+  }
+
+  @include desktop {
+    font-size: 48px;
+    line-height: 125%;
+  }
 }
 
 @mixin timer {
@@ -72,6 +120,10 @@
 
 %display1 {
   @include display1;
+}
+
+%display2 {
+  @include display2;
 }
 
 %headline1 {
@@ -95,10 +147,6 @@
 
 %digits1 {
   @include digits1;
-}
-
-%digits2 {
-  @include digits2;
 }
 
 %timer {
