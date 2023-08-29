@@ -1,4 +1,4 @@
-Burnt it down
+Burn it down
 
 ## Getting Started
 
