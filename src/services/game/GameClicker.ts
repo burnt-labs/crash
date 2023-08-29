@@ -53,8 +53,6 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
     console.log('Requesting funds...');
     await Promise.all(
       this.wallets.map(async (wallet) => {
-        console.log('mnemonic', wallet.mnemonic);
-
         const [firstAccount] = await wallet.getAccounts();
 
         return XionService.requestFunds(firstAccount.address);
