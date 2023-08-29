@@ -41,12 +41,6 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = () => {
             <span className={styles.statsValue}>20s</span>
             <span className={styles.statsCaption}>Session duration</span>
           </div>
-          <div className={styles.statsItem}>
-            <span className={styles.statsValue}>0.01%</span>
-            <span className={styles.statsCaption}>
-              From total in the Burnt network
-            </span>
-          </div>
         </div>
 
         <p className={styles.caption}>You can restart the process</p>

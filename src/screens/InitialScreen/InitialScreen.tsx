@@ -49,8 +49,8 @@ export const InitialScreen: React.FC = () => {
       }
 
       setTimeout(() => {
-        navigateTo('GameScreen');
-      }, 3000);
+        // navigateTo('GameScreen');
+      }, 4000);
     }
   }, [isFinished, navigateTo]);
 
@@ -86,7 +86,7 @@ export const InitialScreen: React.FC = () => {
       <LoadingStage title={stageTexts[0]} threshold={1} />
       <LoadingStage title={stageTexts[1]} threshold={2} />
       <LoadingStage title={stageTexts[2]} threshold={3} />
-      <FinalStage className={styles.finalStage} thresholds={[3.8, 4]} />
+      <FinalStage className={styles.finalStage} thresholds={[3.65, 4]} />
     </section>
   );
 };
