@@ -1,32 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import clsx from 'clsx';
 
 import styles from './FinalStage.module.scss';
 
 interface FinalStageProps {
   className?: string;
-  thresholds: [number, number];
 }
 
-export const FinalStage: React.FC<FinalStageProps> = ({
-  className,
-  thresholds,
-}) => {
-  const [isShowSquare, setIsShowSquare] = useState(false);
-
-  useEffect(() => {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > window.innerHeight * thresholds[0]) {
-        setIsShowSquare(true);
-      }
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+export const FinalStage: React.FC<FinalStageProps> = ({ className }) => {
   return (
     <div className={clsx(styles.root, className)}>
       <svg
-        className={clsx(styles.square, { [styles.show]: isShowSquare })}
+        className={clsx(styles.square)}
         xmlns="http://www.w3.org/2000/svg"
         fill="none"
       >
@@ -39,9 +24,7 @@ export const FinalStage: React.FC<FinalStageProps> = ({
           strokeWidth="2"
         />
       </svg>
-      <h2 className={clsx(styles.heading, { [styles.show]: isShowSquare })}>
-        Begin
-      </h2>
+      <h2 className={clsx(styles.heading)}>Begin</h2>
     </div>
   );
 };

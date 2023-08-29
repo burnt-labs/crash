@@ -20,14 +20,9 @@
   transform-origin: center center;
   width: 24px;
   height: 24px;
-  opacity: 0;
   transition: all 0.35s ease-in-out 1s;
   background-color: #fff;
   z-index: 2;
-
-  &.show {
-    opacity: 1;
-  }
 }
 
 .heading {
@@ -37,7 +32,6 @@
   font-weight: 800;
   font-size: 44px;
   line-height: 154.545%;
-  opacity: 0;
   transition: all 0.35s ease-in-out 1.2s;
 
   @include tablet {
@@ -49,9 +43,5 @@
     transform: translateY(15%);
     font-size: 80px;
     line-height: 155%;
-  }
-
-  &.show {
-    opacity: 1;
   }
 }

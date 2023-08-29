@@ -11,9 +11,9 @@ import { FinalStage } from './FinalStage';
 import { randomInteger, scrollTo } from '@/utils';
 
 import loadingTexts from '@/data/loadingTexts';
+import { useStackNavigator } from '@/providers/NavigatorProvider';
 
 import styles from './InitialScreen.module.scss';
-import { useStackNavigator } from '@/providers/NavigatorProvider';
 
 export const InitialScreen: React.FC = () => {
   const { initGame } = useGame();
@@ -83,10 +83,10 @@ export const InitialScreen: React.FC = () => {
         </div>
       </div>
 
-      <LoadingStage title={stageTexts[0]} threshold={1} />
-      <LoadingStage title={stageTexts[1]} threshold={2} />
-      <LoadingStage title={stageTexts[2]} threshold={3} />
-      <FinalStage className={styles.finalStage} thresholds={[3.65, 4]} />
+      <LoadingStage title={stageTexts[0]} />
+      <LoadingStage title={stageTexts[1]} />
+      <LoadingStage title={stageTexts[2]} />
+      <FinalStage className={styles.finalStage} />
     </section>
   );
 };
