@@ -4,6 +4,7 @@ import { MainLayout } from '@/components/MainLayout';
 
 import '../styles/global.scss';
 import { appConfig } from '@/config';
+import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
   title: 'Burn it down',
@@ -42,6 +43,7 @@ export default function RootLayout({
     >
       <body>
         <MainLayout>{children}</MainLayout>
+        <Analytics />
       </body>
     </html>
   );
