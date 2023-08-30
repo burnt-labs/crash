@@ -29,11 +29,10 @@ export const InitialScreen: React.FC = () => {
     setStageTexts([
       loadingTexts[startIndex],
       loadingTexts[++startIndex % loadingTexts.length],
-      loadingTexts[++startIndex % loadingTexts.length],
     ]);
 
     setIsLoading(true);
-    scrollTo(window.innerHeight * 4, 16000).then(() => {
+    scrollTo(window.innerHeight * 3, 8000).then(() => {
       setIsLoading(false);
     });
     await initGame();
@@ -85,7 +84,6 @@ export const InitialScreen: React.FC = () => {
 
       <LoadingStage title={stageTexts[0]} />
       <LoadingStage title={stageTexts[1]} />
-      <LoadingStage title={stageTexts[2]} />
       <FinalStage className={styles.finalStage} />
     </section>
   );

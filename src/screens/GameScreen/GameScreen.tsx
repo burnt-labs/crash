@@ -39,23 +39,35 @@ export const GameScreen: React.FC<GameScreenProps> = () => {
       setIsGameFinished(true);
       setTimeout(() => {
         navigateTo('GameOverScreen');
-      }, 4500);
+      }, 3000);
       console.log('Game finished');
     });
+  }, [getGameInstance, navigateTo]);
 
+  const handleStart = () => {
     setIsGameStarted(true);
-
     startGame();
-  }, [getGameInstance, navigateTo, startGame]);
+  };
 
   return (
     <section
-      className={clsx(styles.root, { [styles.finished]: isGameFinished })}
+      className={clsx(styles.root, {
+        [styles.finished]: isGameFinished,
+        [styles.started]: isGameStarted,
+      })}
     >
+      <button className={styles.startBtn} onClick={handleStart}>
+        Start Game
+      </button>
+
       {txCards.map(({ hash, x, y }) => (
         <TxBox key={hash} hash={hash} x={x} y={y} size={20} />
       ))}
-      <p className={styles.hint}>Click anywhere to send transaction</p>
+
+      {isGameStarted && (
+        <p className={styles.hint}>Click anywhere to send transaction</p>
+      )}
+
       {isGameStarted && (
         <Timer
           className={styles.timer}
