@@ -10,7 +10,7 @@ interface StackNavigatorProviderProps {
 export type StackNavigatorState =
   | 'InitialScreen'
   | 'GameScreen'
-  | 'GameOverScreen';
+  | 'ResultScreen';
 
 interface StackNavigatorProviderContextState {
   currentScreen: StackNavigatorState;

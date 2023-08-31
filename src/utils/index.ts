@@ -111,3 +111,24 @@ export function fillScreenWithSquares(
 
   return shuffleArray(squares);
 }
+
+export function buildTwitterShareLink(
+  tweetText: string,
+  url?: string,
+): string | null {
+  const TWITTER_MAX_LENGTH = 280;
+  const TWITTER_SHARE_URL = 'https://twitter.com/intent/tweet?text=';
+  const TWEET_FORMATTED = encodeURIComponent(tweetText);
+  const URL_FORMATTED = url ? `&url=${encodeURIComponent(url)}` : '';
+
+  // Calculate the length to ensure we are within Twitter's limit.
+  const totalLength = tweetText.length + (url ? url.length : 0);
+
+  if (totalLength > TWITTER_MAX_LENGTH) {
+    console.error("Tweet is longer than Twitter's limit of 280 characters.");
+
+    return null;
+  }
+
+  return TWITTER_SHARE_URL + TWEET_FORMATTED + URL_FORMATTED;
+}

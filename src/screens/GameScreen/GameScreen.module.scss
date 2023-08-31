@@ -1,5 +1,6 @@
 @import '@/styles/animations';
 @import '@/styles/typography';
+@import '@/styles/animations';
 
 .root {
   position: relative;
@@ -51,6 +52,7 @@
   align-items: center;
   justify-content: center;
   transition: all ease-in-out 0.35s;
+  animation: fade 0.35s ease-in-out;
 
   &:hover {
     transform: scale(1.05);
@@ -61,13 +63,13 @@
   }
 }
 
-.started {
+.starting {
   .startBtn {
     pointer-events: none;
     animation: fade 0.6s ease-in-out reverse both;
   }
 
   .hint {
-    animation: fade 0.35s ease-in-out both 0.6s;
+    animation: fade 0.35s ease-in-out both;
   }
 }

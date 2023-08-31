@@ -39,7 +39,7 @@ export const InitialScreen: React.FC = () => {
 
       setTimeout(() => {
         navigateTo('GameScreen');
-      }, 4000);
+      }, 2700);
     }
   }, [isFinished, navigateTo]);
 

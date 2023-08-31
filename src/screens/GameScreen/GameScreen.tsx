@@ -17,6 +17,7 @@ interface GameScreenProps {
 export const GameScreen: React.FC<GameScreenProps> = () => {
   const { getGameInstance, startGame } = useGame();
   const [isGameStarted, setIsGameStarted] = useState(false);
+  const [isGameStarting, setIsGameStarting] = useState(false);
   const [isGameFinished, setIsGameFinished] = useState(false);
   const [txCards, setTxCards] = useState<TxBoxData[]>([]);
   const { navigateTo } = useStackNavigator();
@@ -35,24 +36,33 @@ export const GameScreen: React.FC<GameScreenProps> = () => {
       setTxCards((txCards) => [...txCards, newTxCard]);
     });
 
+    game.on('started', () => {
+      setIsGameStarted(true);
+      console.log('Game started');
+    });
+
     game.on('finished', () => {
       setIsGameFinished(true);
       setTimeout(() => {
-        navigateTo('GameOverScreen');
+        navigateTo('ResultScreen');
       }, 3000);
       console.log('Game finished');
     });
   }, [getGameInstance, navigateTo]);
 
   const handleStart = () => {
-    setIsGameStarted(true);
-    startGame();
+    setIsGameStarting(true);
+
+    setTimeout(() => {
+      startGame();
+    }, 1000);
   };
 
   return (
     <section
       className={clsx(styles.root, {
         [styles.finished]: isGameFinished,
+        [styles.starting]: isGameStarting,
         [styles.started]: isGameStarted,
       })}
     >
@@ -64,10 +74,8 @@ export const GameScreen: React.FC<GameScreenProps> = () => {
         <TxBox key={hash} hash={hash} x={x} y={y} size={20} />
       ))}
 
-      {isGameStarted && (
-        <p className={styles.hint}>
-          (Starting Sooner) Click anywhere to send a transaction.
-        </p>
+      {isGameStarting && (
+        <p className={styles.hint}>Click anywhere to send a transaction.</p>
       )}
 
       {isGameStarted && (
