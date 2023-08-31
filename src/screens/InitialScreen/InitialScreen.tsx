@@ -8,9 +8,8 @@ import { AnimationBg } from '@/components/AnimationBg';
 import { LoadingStage } from './LoadingStage';
 import { useGame } from '@/providers/GameProvider';
 import { FinalStage } from './FinalStage';
-import { randomInteger, scrollTo } from '@/utils';
+import { scrollTo } from '@/utils';
 
-import loadingTexts from '@/data/loadingTexts';
 import { useStackNavigator } from '@/providers/NavigatorProvider';
 
 import styles from './InitialScreen.module.scss';
@@ -21,16 +20,7 @@ export const InitialScreen: React.FC = () => {
   const [isGameInited, setIsGameInited] = useState(false);
   const { navigateTo } = useStackNavigator();
 
-  const [stageTexts, setStageTexts] = useState<string[]>([]);
-
   const handleStart = async () => {
-    let startIndex = randomInteger(0, loadingTexts.length);
-
-    setStageTexts([
-      loadingTexts[startIndex],
-      loadingTexts[++startIndex % loadingTexts.length],
-    ]);
-
     setIsLoading(true);
     scrollTo(window.innerHeight * 3, 8000).then(() => {
       setIsLoading(false);
@@ -71,19 +61,19 @@ export const InitialScreen: React.FC = () => {
         <div className={styles.container}>
           <h1 className={styles.title}>BURN IT DOWN</h1>
           <p className={styles.subtitle}>
-            The first L1 blockchain purpose built for consumer adoption.
+            Try to crash XION, the blockchain purpose built for consumer
+            adoption.
           </p>
           <p className={styles.caption}>
-            To see just how fast it is, you<span>&#39;</span>re invited to come
-            and burn it down. During the next twenty seconds, you will see how
-            fast and productive our blockchain.
+            Your goal is to try to crash XION. During the next 20 seconds, send
+            as many transactions as you can by clicking quickly.
           </p>
           <ArrowButton isAnimated isActive={isLoading} onClick={handleStart} />
         </div>
       </div>
 
-      <LoadingStage title={stageTexts[0]} />
-      <LoadingStage title={stageTexts[1]} />
+      <LoadingStage title="Get ready to start clicking" />
+      <LoadingStage title="Good luck trying to crash XION" />
       <FinalStage className={styles.finalStage} />
     </section>
   );

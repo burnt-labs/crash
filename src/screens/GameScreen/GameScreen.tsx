@@ -65,7 +65,9 @@ export const GameScreen: React.FC<GameScreenProps> = () => {
       ))}
 
       {isGameStarted && (
-        <p className={styles.hint}>Click anywhere to send transaction</p>
+        <p className={styles.hint}>
+          (Starting Sooner) Click anywhere to send a transaction.
+        </p>
       )}
 
       {isGameStarted && (

@@ -24,7 +24,7 @@ export const FinalStage: React.FC<FinalStageProps> = ({ className }) => {
           strokeWidth="2"
         />
       </svg>
-      <h2 className={clsx(styles.heading)}>Begin</h2>
+      <h2 className={clsx(styles.heading)}>Get Ready</h2>
     </div>
   );
 };

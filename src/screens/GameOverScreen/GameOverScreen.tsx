@@ -29,7 +29,7 @@ export const GameOverScreen: React.FC<GameOverScreenProps> = () => {
     <section className={styles.root}>
       <AnimationBg className={styles.bg} />
       <div className={styles.container}>
-        <h1 className={styles.title}>Thank you for participating</h1>
+        <h1 className={styles.title}>Is that all you’ve got?</h1>
         <div className={styles.stats}>
           <div className={styles.statsItem}>
             <span className={styles.statsValue}>
