@@ -5,12 +5,10 @@ import React from 'react';
 import { AnimationBg } from '@/components/AnimationBg';
 import { useGame } from '@/providers/GameProvider';
 import { useStackNavigator } from '@/providers/NavigatorProvider';
-import { buildTwitterShareLink } from '@/utils';
 
 import DiscordIcon from '@/assets/icons/discord.svg?inline';
 import TelegramIcon from '@/assets/icons/telegram.svg?inline';
 import XIcon from '@/assets/icons/x(twitter).svg?inline';
-import ShareIcon from '@/assets/icons/share.svg?inline';
 
 import styles from './ResultScreen.module.scss';
 
@@ -28,20 +26,6 @@ export const ResultScreen: React.FC<ResultScreenProps> = () => {
     game.restart();
 
     navigateTo('GameScreen');
-  };
-
-  const handleShare = () => {
-    const game = getGameInstance();
-    const shareLink = buildTwitterShareLink(
-      `I just scored ${
-        game.getState().txCount
-      } trying to crash XION 🔥 \n\nThink you can do better? #BurnItDown`,
-      'https://crash.burnt.com',
-    );
-
-    if (shareLink) {
-      window.open(shareLink, '_blank');
-    }
   };
 
   return (
@@ -67,10 +51,6 @@ export const ResultScreen: React.FC<ResultScreenProps> = () => {
         <div className={styles.btnGroup}>
           <button className={styles.shareBtn} onClick={handleRestart}>
             Start new game
-          </button>
-
-          <button className={styles.shareBtn} onClick={handleShare}>
-            Share your result <ShareIcon />
           </button>
         </div>
       </div>
