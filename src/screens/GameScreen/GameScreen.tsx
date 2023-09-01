@@ -81,7 +81,8 @@ export const GameScreen: React.FC<GameScreenProps> = () => {
       {isGameStarted && (
         <Timer
           className={styles.timer}
-          timeout={getGameInstance().getState().duration}
+          duration={getGameInstance().getState().duration}
+          endTime={getGameInstance().getState().endTime}
         />
       )}
     </section>

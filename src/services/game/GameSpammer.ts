@@ -47,6 +47,7 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
       isRunning: this.isRunning,
       isFinished: this.isFinished,
       txCount: this.txCount,
+      endTime: this.endTime,
     };
   }
 

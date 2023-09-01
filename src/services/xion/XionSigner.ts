@@ -15,7 +15,9 @@ export class XionSigner {
   private chainId!: string;
   private accountNumber!: number;
   private sequence!: number;
-  private prevExpectedSequences: { [key: number]: number } = {};
+  private refreshedSequences: { [key: number]: number } = {};
+  private sequenceRefreshNumber = 0;
+  private txIndex = 0;
 
   constructor(
     address: string,
@@ -30,6 +32,10 @@ export class XionSigner {
   }
 
   async sendTokens(toAddress: string, amount: number) {
+    const currentSequenceRefreshNumber = this.sequenceRefreshNumber;
+
+    this.txIndex++;
+
     try {
       const fromAddress = this.address;
 
@@ -73,13 +79,16 @@ export class XionSigner {
     } catch (err) {
       const expectedSequence = praseExpectedSequence((err as Error).message);
 
-      if (!expectedSequence || this.prevExpectedSequences[expectedSequence]) {
+      if (
+        expectedSequence === null ||
+        this.refreshedSequences[currentSequenceRefreshNumber]
+      ) {
         throw err;
       }
 
-      this.prevExpectedSequences[expectedSequence] = expectedSequence;
-      this.sequence = expectedSequence + 1;
-
+      this.refreshedSequences[this.sequenceRefreshNumber] = expectedSequence;
+      this.sequence = expectedSequence;
+      this.sequenceRefreshNumber++;
       throw err;
     }
   }

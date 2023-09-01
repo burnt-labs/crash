@@ -6,7 +6,7 @@ import { XionSigner } from './XionSigner';
 export class XionService {
   public static async requestFunds(
     address: string,
-    coin: string = '2000000uxion',
+    coin: string = '6000000uxion',
   ): Promise<void> {
     console.log(`Requesting funds for address ${address}...`);
 

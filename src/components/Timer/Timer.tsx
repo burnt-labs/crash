@@ -5,26 +5,43 @@ import styles from './Timer.module.scss';
 
 interface TimerProps {
   className?: string;
-  timeout: number;
+  duration: number;
+  endTime: number;
 }
 
-export const Timer: React.FC<TimerProps> = ({ className, timeout }) => {
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const [count, setCount] = useState(() => Math.ceil(timeout / 1000));
+export const Timer: React.FC<TimerProps> = ({
+  className,
+  duration,
+  endTime,
+}) => {
+  const timerRef = useRef<number | null>(null);
+  const [count, setCount] = useState(() => Math.ceil(duration / 1000));
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCount((prevCount) => prevCount - 1);
-    }, 1000);
+    function loop() {
+      setCount((prevCount) => {
+        if (prevCount <= 0) {
+          return prevCount;
+        }
 
-    timerRef.current = interval;
+        const now = Date.now();
+        const diff = endTime - now;
+        const newCount = Math.ceil(diff / 1000);
 
-    return () => clearInterval(interval);
-  }, [count]);
+        return newCount;
+      });
+      timerRef.current = requestAnimationFrame(loop);
+    }
+    timerRef.current = requestAnimationFrame(loop);
+
+    return () => {
+      timerRef.current && cancelAnimationFrame(timerRef.current);
+    };
+  }, [count, endTime]);
 
   useEffect(() => {
     if (count <= 0 && timerRef.current) {
-      clearInterval(timerRef.current);
+      cancelAnimationFrame(timerRef.current);
     }
   }, [count]);
 

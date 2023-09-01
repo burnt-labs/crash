@@ -9,6 +9,7 @@ export type GameState = {
   isRunning: boolean;
   isFinished: boolean;
   txCount: number;
+  endTime: number;
 };
 
 export type GameEvents = {

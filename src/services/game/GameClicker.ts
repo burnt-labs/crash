@@ -22,6 +22,7 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
   private isFinished = false;
   private txCount = 0;
   private endTime = 0;
+  private signerIndex = 0;
 
   constructor(duration: number, mnemonics: string[] = []) {
     super();
@@ -37,6 +38,7 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
       isRunning: this.isRunning,
       isFinished: this.isFinished,
       txCount: this.txCount,
+      endTime: this.endTime,
     };
   }
 
@@ -68,12 +70,28 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
     this.isInitialized = true;
   }
 
-  handleClick = (e: MouseEvent) => {
+  handleClick = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     e.stopImmediatePropagation();
 
-    const [signer] = this.signers;
+    if (!this.isRunning) {
+      return;
+    }
+
+    if (Date.now() > this.endTime) {
+      this.terminate();
+      await Promise.allSettled(this.promises);
+      this.promises = [];
+      this.isFinished = true;
+      this.emit('finished', this.getState());
+
+      clearTimeout(this.timerId!);
+
+      return;
+    }
+
+    const signer = this.signers[this.signerIndex % this.signers.length];
 
     const promise = signer
       .sendTokens(appConfig.xionFaucetAddress, TRANSFER_AMOUNT)
@@ -83,6 +101,7 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
       });
 
     this.promises.push(promise);
+    this.signerIndex++;
   };
 
   start() {
@@ -108,7 +127,6 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
       this.emit('finished', this.getState());
     }, this.duration);
 
-    console.log('Game started!');
     this.emit('started', this.getState());
   }
 
