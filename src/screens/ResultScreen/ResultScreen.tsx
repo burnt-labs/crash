@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import { AnimationBg } from '@/components/AnimationBg';
 import { useGame } from '@/providers/GameProvider';
@@ -21,6 +21,27 @@ interface ResultScreenProps {
 export const ResultScreen: React.FC<ResultScreenProps> = () => {
   const { navigateTo } = useStackNavigator();
   const { getGameInstance } = useGame();
+
+  const [submitted, setSubmitted] = useState(false);
+  const [email, setEmail] = useState('');
+
+  const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const handleSubmit = async () => {
+    await fetch('/api/email', {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+      body: JSON.stringify({
+        email,
+        score: getGameInstance().getState().txCount,
+      }),
+    });
+    setSubmitted(true);
+  };
 
   const handleRestart = () => {
     const game = getGameInstance();
@@ -73,6 +94,21 @@ export const ResultScreen: React.FC<ResultScreenProps> = () => {
             Share your result <ShareIcon />
           </button>
         </div>
+        {!submitted && (
+          <div className={styles.emailForm}>
+            <input
+              type={'email'}
+              className={styles.input}
+              placeholder={'Enter your email address'}
+              value={email}
+              onChange={handleEmail}
+            />
+            <button className={styles.submit} onClick={handleSubmit}>
+              Submit
+            </button>
+          </div>
+        )}
+        {submitted && <div className={styles.submitted}>Email Submitted!</div>}
       </div>
       <div className={styles.footer}>
         <div className={styles.socials}>

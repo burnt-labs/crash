@@ -170,3 +170,56 @@
     height: 24px;
   }
 }
+
+.emailForm {
+  margin-top: 30px;
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 15px;
+
+  input {
+    width: calc(100% - 80px);
+    height: 44px;
+    border-radius: 44px;
+    border: 1px solid #fff;
+    padding: 0 24px;
+    background-color: transparent;
+    color: #fff;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 400;
+    outline: none;
+    transition: border-color 0.3s ease-in-out;
+
+    &:focus {
+      border-color: #fff;
+    }
+  }
+
+  .submit {
+    width: 80px;
+    height: 44px;
+    color: #000;
+    border-width: 0;
+    background-color: #fff;
+    border-radius: 44px;
+    padding: 0 24px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+}
+.submitted {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 30px;
+  animation: fade 0.35s ease-in-out 2s both;
+}
