@@ -2,31 +2,28 @@ import { appConfig } from '@/config';
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import { SignerData, SigningStargateClient } from '@cosmjs/stargate';
 import { XionSigner } from './XionSigner';
+import { fetchWithRetry } from '@/services/http';
 
 export class XionService {
   public static async requestFunds(
     address: string,
     coin: string = '6000000uxion',
-  ): Promise<void> {
+  ): Promise<Response> {
     console.log(`Requesting funds for address ${address}...`);
 
-    try {
-      const response = await fetch(appConfig.xionFaucetApiUrl, {
+    return fetchWithRetry(
+      appConfig.xionFaucetApiUrl,
+      {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ address, coins: [coin] }),
-      });
-
-      if (!response.ok) {
-        throw new Error(response.statusText);
-      }
-
-      console.log(`Funds requested for address ${address}!`);
-    } catch (err) {
-      console.error(err);
-    }
+      },
+      {
+        timeout: 60000,
+      },
+    );
   }
 
   public static async createWallet(

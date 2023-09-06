@@ -16,20 +16,26 @@ import styles from './InitialScreen.module.scss';
 
 export const InitialScreen: React.FC = () => {
   const { initGame } = useGame();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isAnimating, setisAnimating] = useState(false);
   const [isGameInited, setIsGameInited] = useState(false);
+  const [isError, setIsError] = useState(false);
   const { navigateTo } = useStackNavigator();
 
   const handleStart = async () => {
-    setIsLoading(true);
-    scrollTo(window.innerHeight * 3, 8000).then(() => {
-      setIsLoading(false);
-    });
-    await initGame();
-    setIsGameInited(true);
+    try {
+      setisAnimating(true);
+      scrollTo(window.innerHeight * 3, 8000).then(() => {
+        setisAnimating(false);
+      });
+      await initGame();
+      setIsGameInited(true);
+    } catch (e) {
+      setIsError(true);
+      console.log(e);
+    }
   };
 
-  const isFinished = isGameInited && !isLoading;
+  const isFinished = isGameInited && !isError;
 
   useEffect(() => {
     if (isFinished) {
@@ -68,13 +74,21 @@ export const InitialScreen: React.FC = () => {
             Your goal is to try to crash XION. During the next 20 seconds, send
             as many transactions as you can by clicking quickly.
           </p>
-          <ArrowButton isAnimated isActive={isLoading} onClick={handleStart} />
+          <ArrowButton
+            isAnimated
+            isActive={isAnimating}
+            onClick={handleStart}
+          />
         </div>
       </div>
 
       <LoadingStage title="Get ready to start clicking" />
       <LoadingStage title="Good luck trying to crash XION" />
-      <FinalStage className={styles.finalStage} />
+      <FinalStage
+        className={styles.finalStage}
+        isLoaded={isGameInited}
+        isError={isError}
+      />
     </section>
   );
 };

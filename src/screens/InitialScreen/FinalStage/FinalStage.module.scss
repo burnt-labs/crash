@@ -1,4 +1,6 @@
 @import '@/styles/mixins/media';
+@import '@/styles/mixins/common';
+@import '@/styles/animations';
 
 .root {
   position: relative;
@@ -25,14 +27,18 @@
   z-index: 2;
 }
 
-.heading {
+.heading,
+.error,
+.loading {
   font-family: var(--font-respira);
-  color: #000;
   font-style: normal;
   font-weight: 800;
   font-size: 44px;
   line-height: 154.545%;
   transition: all 0.35s ease-in-out 1.2s;
+  text-align: center;
+  max-width: 70%;
+  color: #000;
 
   @include tablet {
     font-size: 56px;
@@ -44,4 +50,25 @@
     font-size: 80px;
     line-height: 155%;
   }
+}
+
+.heading.isLoaded {
+  transition: all 0.35s ease-in-out 1.2s;
+  opacity: 1 !important;
+}
+
+.loading,
+.error {
+  line-height: 1.2;
+}
+
+.errorWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tryAgain {
+  margin-top: 36px;
+  @extend %button-dark;
 }

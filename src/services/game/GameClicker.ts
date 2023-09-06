@@ -45,29 +45,36 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
   async init() {
     console.log('Initializing game...');
 
-    console.log('Creating wallets...');
-    this.wallets = await Promise.all(
-      mapFrom(this.numberOfSigners, async (index) =>
-        XionService.createWallet(this.mnemonics[index]),
-      ),
-    );
+    try {
+      console.log('Creating wallets...');
+      this.wallets = await Promise.all(
+        mapFrom(this.numberOfSigners, async (index) =>
+          XionService.createWallet(this.mnemonics[index]),
+        ),
+      );
 
-    console.log('Requesting funds...');
-    await Promise.all(
-      this.wallets.map(async (wallet) => {
-        const [firstAccount] = await wallet.getAccounts();
+      console.log('Requesting funds...');
+      await Promise.all(
+        this.wallets.map(async (wallet) => {
+          const [firstAccount] = await wallet.getAccounts();
 
-        return XionService.requestFunds(firstAccount.address);
-      }),
-    );
+          return XionService.requestFunds(firstAccount.address);
+        }),
+      );
 
-    console.log('Creating signers...');
-    this.signers = await Promise.all(
-      this.wallets.map(async (wallet) => XionService.createXionSigner(wallet)),
-    );
+      console.log('Creating signers...');
+      this.signers = await Promise.all(
+        this.wallets.map(async (wallet) =>
+          XionService.createXionSigner(wallet),
+        ),
+      );
 
-    console.log('Game initialized!');
-    this.isInitialized = true;
+      console.log('Game initialized!');
+      this.isInitialized = true;
+    } catch (err) {
+      console.error(err);
+      throw err;
+    }
   }
 
   handleClick = async (e: MouseEvent) => {

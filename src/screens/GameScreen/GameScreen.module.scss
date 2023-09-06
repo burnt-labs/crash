@@ -1,6 +1,6 @@
 @import '@/styles/animations';
 @import '@/styles/typography';
-@import '@/styles/animations';
+@import '@/styles/mixins/common';
 
 .root {
   position: relative;
@@ -41,26 +41,7 @@
 }
 
 .startBtn {
-  @extend %body3;
-  width: 250px;
-  height: 56px;
-  border-radius: 56px;
-  border: 1px solid #131416;
-  background-color: #131416;
-  color: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all ease-in-out 0.35s;
-  animation: fade 0.35s ease-in-out;
-
-  &:hover {
-    transform: scale(1.05);
-  }
-
-  &:active {
-    transform: scale(1);
-  }
+  @extend %button-dark;
 }
 
 .starting {
