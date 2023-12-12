@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { Abstraxion, useAbstraxionAccount } from "@burnt-labs/abstraxion";
 
 import { ArrowButton } from '@/components/ArrowButton';
 import { AnimationBg } from '@/components/AnimationBg';
@@ -18,17 +19,23 @@ export const InitialScreen: React.FC = () => {
   const { initGame } = useGame();
   const [isAnimating, setisAnimating] = useState(false);
   const [isGameInited, setIsGameInited] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [isError, setIsError] = useState(false);
   const { navigateTo } = useStackNavigator();
+  const { data: account } = useAbstraxionAccount();
 
   const handleStart = async () => {
     try {
-      setisAnimating(true);
-      scrollTo(window.innerHeight * 3, 8000).then(() => {
-        setisAnimating(false);
-      });
-      await initGame();
-      setIsGameInited(true);
+      if (!account) {
+        setIsOpen(true);
+      } else {
+        setisAnimating(true);
+        scrollTo(window.innerHeight * 3, 8000).then(() => {
+          setisAnimating(false);
+        });
+        await initGame();
+        setIsGameInited(true);
+      }
     } catch (e) {
       setIsError(true);
       console.log(e);
@@ -36,6 +43,12 @@ export const InitialScreen: React.FC = () => {
   };
 
   const isFinished = isGameInited && !isError;
+
+  useEffect(() => {
+    if (account) {
+      setIsOpen(false);
+    }
+  }, [account]);
 
   useEffect(() => {
     if (isFinished) {
@@ -55,6 +68,7 @@ export const InitialScreen: React.FC = () => {
         [styles.finished]: isFinished,
       })}
     >
+      <Abstraxion onClose={() => setIsOpen(false)} isOpen={isOpen} />
       <svg
         className={styles.line}
         xmlns="http://www.w3.org/2000/svg"
