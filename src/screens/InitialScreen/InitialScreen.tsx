@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
-import { Abstraxion, useAbstraxionAccount } from "@burnt-labs/abstraxion";
+import { Abstraxion, useAbstraxionAccount } from '@burnt-labs/abstraxion';
 
 import { ArrowButton } from '@/components/ArrowButton';
 import { AnimationBg } from '@/components/AnimationBg';
