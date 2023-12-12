@@ -1,5 +1,3 @@
-'use client';
-
 import type { Metadata } from 'next';
 import { inter, respira } from './_fonts';
 import { MainLayout } from '@/components/MainLayout';
