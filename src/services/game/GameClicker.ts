@@ -101,7 +101,11 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
     const signer = this.signers[this.signerIndex % this.signers.length];
 
     const promise = signer
-      .sendTokens(appConfig.xionFaucetAddress, TRANSFER_AMOUNT)
+      .sendTokens(
+        appConfig.xionFaucetAddress,
+        TRANSFER_AMOUNT,
+        'xion1x7hcz7r6rs0ylzur30rytded273efakhha6qxz',
+      )
       .then((hash) => {
         this.txCount++;
         this.emit('tx', hash, this.txCount, this.getState());

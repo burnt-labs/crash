@@ -1,4 +1,6 @@
 import { SignerData, SigningStargateClient } from '@cosmjs/stargate';
+import { MsgExec } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
+import { MsgSend } from 'cosmjs-types/cosmos/bank/v1beta1/tx';
 import { EncodeObject } from '@cosmjs/proto-signing';
 import { TxRaw } from 'cosmjs-types/cosmos/tx/v1beta1/tx';
 import {
@@ -31,7 +33,7 @@ export class XionSigner {
     this.sequence = signerData.sequence;
   }
 
-  async sendTokens(toAddress: string, amount: number) {
+  async sendTokens(toAddress: string, amount: number, grantee: string) {
     const currentSequenceRefreshNumber = this.sequenceRefreshNumber;
 
     this.txIndex++;
@@ -48,13 +50,23 @@ export class XionSigner {
       this.sequence++;
 
       const sendMsg: EncodeObject = {
-        typeUrl: '/cosmos.bank.v1beta1.MsgSend',
-        value: {
-          fromAddress,
-          toAddress,
-          amount: [{ denom: 'uxion', amount: amount.toString() }],
-        },
+        typeUrl: '/cosmos.authz.v1beta1.MsgExec',
+        value: MsgExec.fromPartial({
+          grantee: grantee,
+          msgs: [
+            {
+              typeUrl: '/cosmos.bank.v1beta1.MsgSend',
+              value: MsgSend.encode({
+                fromAddress,
+                toAddress,
+                amount: [{ denom: 'uxion', amount: amount.toString() }],
+              }).finish(),
+            },
+          ],
+        }),
       };
+
+      console.log(sendMsg);
 
       const fee = {
         amount: [
@@ -70,10 +82,11 @@ export class XionSigner {
         '',
         signerData,
       );
-
       const txBytes = TxRaw.encode(txRaw).finish();
 
       const hash = await this.client.broadcastTxSync(txBytes);
+
+      console.log(hash);
 
       return hash;
     } catch (err) {
