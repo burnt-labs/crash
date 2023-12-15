@@ -8,6 +8,7 @@ import {
   GAS_LIMIT_TOKEN_TRANSFER,
 } from '@/constants';
 import { praseExpectedSequence } from './utils';
+import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 
 export class XionSigner {
   public readonly address: string;
@@ -20,14 +21,17 @@ export class XionSigner {
   private refreshedSequences: { [key: number]: number } = {};
   private sequenceRefreshNumber = 0;
   private txIndex = 0;
+  private walletClient: SigningCosmWasmClient | undefined;
 
   constructor(
     address: string,
     signerData: SignerData,
     client: SigningStargateClient,
+    walletClient: SigningCosmWasmClient | undefined,
   ) {
     this.address = address;
     this.client = client;
+    this.walletClient = walletClient;
     this.chainId = signerData.chainId;
     this.accountNumber = signerData.accountNumber;
     this.sequence = signerData.sequence;
@@ -75,20 +79,19 @@ export class XionSigner {
         gas: GAS_LIMIT_TOKEN_TRANSFER,
       };
 
-      const txRaw = await this.client.sign(
-        fromAddress,
-        [sendMsg],
-        fee,
-        '',
-        signerData,
-      );
-      const txBytes = TxRaw.encode(txRaw).finish();
+      if (this.walletClient) {
+        const txRaw = await this.walletClient.sign(
+          'xion1x7hcz7r6rs0ylzur30rytded273efakhha6qxz',
+          [sendMsg],
+          fee,
+          '',
+          signerData,
+        );
+        const txBytes = TxRaw.encode(txRaw).finish();
+        const hash = await this.walletClient.broadcastTxSync(txBytes);
 
-      const hash = await this.client.broadcastTxSync(txBytes);
-
-      console.log(hash);
-
-      return hash;
+        return hash;
+      }
     } catch (err) {
       const expectedSequence = praseExpectedSequence((err as Error).message);
 

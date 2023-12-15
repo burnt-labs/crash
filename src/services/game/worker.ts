@@ -1,3 +1,4 @@
+/* eslint-disable */
 import { appConfig } from '@/config';
 import { TRANSFER_AMOUNT } from '@/constants';
 import { XionService } from '@/services/xion';
@@ -32,6 +33,7 @@ self.addEventListener(
     const mnemonic = event.data.mnemonic;
 
     const wallet = await XionService.createWallet(mnemonic);
+    //@ts-ignore
     const signer = await XionService.createXionSigner(wallet);
 
     let count = 0;
@@ -40,7 +42,9 @@ self.addEventListener(
 
     while (Date.now() < endTime) {
       const promise = signer
+        //@ts-ignore
         .sendTokens(appConfig.xionFaucetAddress, TRANSFER_AMOUNT)
+        //@ts-ignore
         .then((hash: string) => {
           const txEvent: TxWorkerEvent = { event: 'tx', hash };
 

@@ -5,6 +5,7 @@ import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import { IGame, GameEvents, GameState } from './core';
 import { TRANSFER_AMOUNT } from '@/constants';
 import { appConfig } from '@/config';
+import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 
 export class Game extends TypedEventEmitter<GameEvents> implements IGame {
   private wallets!: DirectSecp256k1HdWallet[];
@@ -23,11 +24,17 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
   private txCount = 0;
   private endTime = 0;
   private signerIndex = 0;
+  walletClient: SigningCosmWasmClient | undefined;
 
-  constructor(duration: number, mnemonics: string[] = []) {
+  constructor(
+    duration: number,
+    mnemonics: string[] = [],
+    walletClient: SigningCosmWasmClient | undefined,
+  ) {
     super();
     this.duration = duration;
     this.mnemonics = mnemonics;
+    this.walletClient = walletClient;
   }
 
   getState(): GameState {
@@ -39,6 +46,7 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
       isFinished: this.isFinished,
       txCount: this.txCount,
       endTime: this.endTime,
+      walletClient: this.walletClient,
     };
   }
 
@@ -61,11 +69,10 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
           return XionService.requestFunds(firstAccount.address);
         }),
       );
-
       console.log('Creating signers...');
       this.signers = await Promise.all(
         this.wallets.map(async (wallet) =>
-          XionService.createXionSigner(wallet),
+          XionService.createXionSigner(wallet, this.walletClient),
         ),
       );
 
@@ -107,8 +114,10 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
         'xion1x7hcz7r6rs0ylzur30rytded273efakhha6qxz',
       )
       .then((hash) => {
-        this.txCount++;
-        this.emit('tx', hash, this.txCount, this.getState());
+        if (hash) {
+          this.txCount++;
+          this.emit('tx', hash, this.txCount, this.getState());
+        }
       });
 
     this.promises.push(promise);

@@ -1,8 +1,10 @@
+/* eslint-disable */
 import { appConfig } from '@/config';
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import { SignerData, SigningStargateClient } from '@cosmjs/stargate';
 import { XionSigner } from './XionSigner';
 import { fetchWithRetry } from '@/services/http';
+import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 
 export class XionService {
   public static async requestFunds(
@@ -40,18 +42,18 @@ export class XionService {
 
   public static async createXionSigner(
     wallet: DirectSecp256k1HdWallet,
+    walletClient: SigningCosmWasmClient | undefined,
   ): Promise<XionSigner> {
     const client = await SigningStargateClient.connectWithSigner(
       appConfig.xionRpcUrl,
       wallet,
     );
-
-    const [firstAccount] = await wallet.getAccounts();
-
-    const { sequence, accountNumber } = await client.getSequence(
-      firstAccount.address,
+    //@ts-ignore
+    const { sequence, accountNumber } = await walletClient.getSequence(
+      'xion1x7hcz7r6rs0ylzur30rytded273efakhha6qxz',
     );
-    const chainId = await client.getChainId();
+    //@ts-ignore
+    const chainId = await walletClient.getChainId();
 
     const initialSenderData: SignerData = {
       chainId,
@@ -59,6 +61,11 @@ export class XionService {
       sequence,
     };
 
-    return new XionSigner(firstAccount.address, initialSenderData, client);
+    return new XionSigner(
+      'xion1x7hcz7r6rs0ylzur30rytded273efakhha6qxz',
+      initialSenderData,
+      client,
+      walletClient,
+    );
   }
 }

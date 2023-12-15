@@ -45,7 +45,9 @@ export const InitialScreen: React.FC = () => {
         typeUrl: '/cosmos.bank.v1beta1.SendAuthorization',
         value: sendAuthValue,
       },
-      expiration: '2023-12-14T00:00:00Z',
+      expiration: {
+        seconds: 2000,
+      },
     },
     grantee: 'xion1x7hcz7r6rs0ylzur30rytded273efakhha6qxz',
     granter: 'xion1sv4knujc7teaeawf0tdurxewcmlgljqw053vay',
@@ -55,7 +57,7 @@ export const InitialScreen: React.FC = () => {
 
   const handleStart = async () => {
     try {
-      if (!account) {
+      if (!account?.bech32Address) {
         setIsOpen(true);
       } else {
         setisAnimating(true);
@@ -72,12 +74,6 @@ export const InitialScreen: React.FC = () => {
   };
 
   const isFinished = isGameInited && !isError;
-
-  useEffect(() => {
-    if (account) {
-      setIsOpen(false);
-    }
-  }, [account]);
 
   useEffect(() => {
     if (isFinished) {
