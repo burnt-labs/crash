@@ -12,6 +12,7 @@ export type GameState = {
   txCount: number;
   endTime: number;
   walletClient?: SigningCosmWasmClient | undefined;
+  accountAddress: string | undefined;
 };
 
 export type GameEvents = {

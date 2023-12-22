@@ -3,9 +3,9 @@ import { TypedEventEmitter } from '@/services/common';
 import { mapFrom } from '@/utils';
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import { IGame, GameEvents, GameState } from './core';
-import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 import { TRANSFER_AMOUNT } from '@/constants';
 import { appConfig } from '@/config';
+import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 
 export class Game extends TypedEventEmitter<GameEvents> implements IGame {
   private wallets!: DirectSecp256k1HdWallet[];
@@ -25,16 +25,19 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
   private endTime = 0;
   private signerIndex = 0;
   walletClient: SigningCosmWasmClient | undefined;
+  accountAddress: string | undefined;
 
   constructor(
     duration: number,
     mnemonics: string[] = [],
     walletClient: SigningCosmWasmClient | undefined,
+    accountAddress: string | undefined,
   ) {
     super();
     this.duration = duration;
     this.mnemonics = mnemonics;
     this.walletClient = walletClient;
+    this.accountAddress = accountAddress;
   }
 
   getState(): GameState {
@@ -47,6 +50,7 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
       txCount: this.txCount,
       endTime: this.endTime,
       walletClient: this.walletClient,
+      accountAddress: this.accountAddress,
     };
   }
 
@@ -64,15 +68,21 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
       console.log('Requesting funds...');
       await Promise.all(
         this.wallets.map(async (wallet) => {
-          const [firstAccount] = await wallet.getAccounts();
+          console.log(wallet);
 
-          return XionService.requestFunds(firstAccount.address);
+          if (this.accountAddress) {
+            return XionService.requestFunds(this.accountAddress);
+          }
         }),
       );
       console.log('Creating signers...');
       this.signers = await Promise.all(
         this.wallets.map(async (wallet) =>
-          XionService.createXionSigner(wallet, this.walletClient),
+          XionService.createXionSigner(
+            wallet,
+            this.walletClient,
+            this.accountAddress,
+          ),
         ),
       );
 
@@ -83,7 +93,6 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
       throw err;
     }
   }
-
   handleClick = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -111,7 +120,7 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
       .sendTokens(
         appConfig.xionFaucetAddress,
         TRANSFER_AMOUNT,
-        'xion1x7hcz7r6rs0ylzur30rytded273efakhha6qxz',
+        this.accountAddress,
       )
       .then((hash) => {
         if (hash) {

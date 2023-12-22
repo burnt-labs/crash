@@ -9,7 +9,10 @@ import React, {
 } from 'react';
 import { GameClicker } from '@/services/game';
 import { appConfig } from '@/config';
-import { useAbstraxionSigningClient } from '@burnt-labs/abstraxion';
+import {
+  useAbstraxionAccount,
+  useAbstraxionSigningClient,
+} from '@burnt-labs/abstraxion';
 import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 
 interface GameProviderProps {
@@ -20,6 +23,7 @@ interface GameContextState {
   initGame: () => Promise<void>;
   startGame: () => void;
   walletClient: SigningCosmWasmClient | undefined;
+  accountAddress: string | undefined;
 }
 
 const initialGameState: GameContextState = {
@@ -33,32 +37,37 @@ const initialGameState: GameContextState = {
     throw new Error('GameProvider not initialized');
   },
   walletClient: undefined,
+  accountAddress: undefined,
 };
 
 export const GameContext = createContext<GameContextState>(initialGameState);
 
 export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   const { client: walletClient } = useAbstraxionSigningClient();
+  const { data: account } = useAbstraxionAccount();
+  const accountAddress = account?.bech32Address;
   const [gameInstance, setGameInstance] = useState<GameClicker>(
     () =>
       new GameClicker(
         appConfig.txSpamDuration,
         appConfig.mnemonics,
         walletClient,
+        accountAddress,
       ),
   );
 
   useEffect(() => {
-    if (walletClient) {
+    if (walletClient && accountAddress) {
       setGameInstance(
         new GameClicker(
           appConfig.txSpamDuration,
           appConfig.mnemonics,
           walletClient,
+          accountAddress,
         ),
       );
     }
-  }, [walletClient]);
+  }, [walletClient, accountAddress]);
 
   const handleInitGame = useCallback(async () => {
     if (gameInstance) {
@@ -80,8 +89,15 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
       walletClient,
       initGame: handleInitGame,
       startGame: handleStartGame,
+      accountAddress,
     }),
-    [getGameInstance, handleInitGame, handleStartGame, walletClient],
+    [
+      getGameInstance,
+      handleInitGame,
+      handleStartGame,
+      walletClient,
+      accountAddress,
+    ],
   );
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

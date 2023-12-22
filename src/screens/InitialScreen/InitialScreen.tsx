@@ -3,9 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import { Abstraxion, useAbstraxionAccount } from '@burnt-labs/abstraxion';
-import { SendAuthorization } from 'cosmjs-types/cosmos/bank/v1beta1/authz';
-import { Coin } from 'cosmjs-types/cosmos/base/v1beta1/coin';
-import { MsgGrant } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 
 import { ArrowButton } from '@/components/ArrowButton';
 import { AnimationBg } from '@/components/AnimationBg';
@@ -26,34 +23,6 @@ export const InitialScreen: React.FC = () => {
   const [isError, setIsError] = useState(false);
   const { navigateTo } = useStackNavigator();
   const { data: account } = useAbstraxionAccount();
-
-  console.log(account);
-
-  const sendAuthValue = SendAuthorization.encode(
-    SendAuthorization.fromPartial({
-      spendLimit: [
-        Coin.fromPartial({
-          amount: '2000',
-          denom: 'uxion',
-        }),
-      ],
-    }),
-  ).finish();
-  const grantValue = MsgGrant.fromPartial({
-    grant: {
-      authorization: {
-        typeUrl: '/cosmos.bank.v1beta1.SendAuthorization',
-        value: sendAuthValue,
-      },
-      expiration: {
-        seconds: 2000,
-      },
-    },
-    grantee: 'xion1x7hcz7r6rs0ylzur30rytded273efakhha6qxz',
-    granter: 'xion1sv4knujc7teaeawf0tdurxewcmlgljqw053vay',
-  });
-
-  console.log(grantValue);
 
   const handleStart = async () => {
     try {
