@@ -53,6 +53,8 @@ export class XionService {
       wallet,
     );
 
+    // 1800 seconds (30 minutes) till grant expiration.
+    const expirationTime = 1800000;
     const sendAuth = async () => {
       if (client) {
         const [firstAccount] = await wallet.getAccounts();
@@ -73,7 +75,7 @@ export class XionService {
               value: sendAuthValue,
             },
             expiration: {
-              seconds: Math.floor((Date.now() + 40000) / 1000),
+              seconds: Math.floor((Date.now() + expirationTime) / 1000),
             },
           },
           grantee: firstAccount.address,
