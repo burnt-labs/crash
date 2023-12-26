@@ -93,7 +93,7 @@ export class XionService {
       const msg = await sendAuth();
 
       if (accountAddress) {
-        return walletClient?.signAndBroadcast(
+        return walletClient?.signAndBroadcastSync(
           accountAddress,
           [msg as EncodeObject],
           {
@@ -178,7 +178,9 @@ export class XionService {
 
     (async () => {
       try {
-        await grant();
+        const hash = await grant();
+
+        console.log(`Grant authorization tx hash: ${hash}`);
         //const result1 = await revokeFee()
         //const result1 = await grantFee();
       } catch (error) {
