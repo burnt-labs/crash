@@ -39,15 +39,10 @@ export class XionSigner {
     this.accountAddress = accountAddress;
   }
 
-  async sendTokens(
-    toAddress: string,
-    amount: number,
-    grantee: string | undefined,
-  ) {
+  async sendTokens(toAddress: string, amount: number) {
     const currentSequenceRefreshNumber = this.sequenceRefreshNumber;
 
     this.txIndex++;
-    console.log(grantee);
 
     try {
       const fromAddress = this.address;
@@ -100,6 +95,8 @@ export class XionSigner {
       const txBytes = TxRaw.encode(txRaw).finish();
 
       const hash = await this.client.broadcastTxSync(txBytes);
+
+      console.log(`Tx hash: ${hash}`);
 
       return hash;
     } catch (err) {
