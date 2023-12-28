@@ -8,6 +8,7 @@ import { TypedEventEmitter } from '@/services/common';
 import { mapFrom } from '@/utils';
 import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import { IGame, GameEvents, GameState } from './core';
+import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 
 export class Game extends TypedEventEmitter<GameEvents> implements IGame {
   private wallets!: DirectSecp256k1HdWallet[];
@@ -24,30 +25,38 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
   private isFinished = false;
   private txCount = 0;
   private endTime = 0;
+  private signerIndex = 0;
+  walletClient: SigningCosmWasmClient;
+  accountAddress: string | undefined;
 
   constructor(
     numberOfSigners: number,
     duration: number,
     interval: number,
     mnemonics: string[] = [],
+    walletClient: SigningCosmWasmClient,
+    accountAddress: string | undefined,
   ) {
     super();
     this.numberOfSigners = numberOfSigners;
     this.duration = duration;
-    this.interval = interval;
     this.mnemonics = mnemonics;
+    this.walletClient = walletClient;
+    this.interval = interval;
+    this.accountAddress = accountAddress;
   }
 
   getState(): GameState {
     return {
       duration: this.duration,
-      interval: this.interval,
       wallets: this.wallets,
       signers: this.signers,
       isRunning: this.isRunning,
       isFinished: this.isFinished,
       txCount: this.txCount,
       endTime: this.endTime,
+      walletClient: this.walletClient,
+      accountAddress: this.accountAddress,
     };
   }
 
@@ -75,10 +84,15 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
         return XionService.requestFunds(firstAccount.address);
       }),
     );
-
     console.log('Creating signers...');
     this.signers = await Promise.all(
-      this.wallets.map(async (wallet) => XionService.createXionSigner(wallet)),
+      this.wallets.map(async (wallet) =>
+        XionService.createXionSigner(
+          wallet,
+          this.walletClient,
+          this.accountAddress,
+        ),
+      ),
     );
 
     console.log('Game initialized!');
