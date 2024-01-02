@@ -12,7 +12,7 @@ import { MsgGrant } from 'cosmjs-types/cosmos/authz/v1beta1/tx';
 export class XionService {
   public static async requestFunds(
     address: string,
-    coin: string = '6000000uxion',
+    coin: string = '1000000uxion',
   ): Promise<Response> {
     console.log(`Requesting funds for address ${address}...`);
 
