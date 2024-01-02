@@ -172,6 +172,7 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
   restart() {
     this.txCount = 0;
     this.isFinished = false;
+    this.wallets = [];
   }
 
   terminate() {

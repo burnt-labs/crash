@@ -26,28 +26,40 @@ export const GameScreen: React.FC<GameScreenProps> = () => {
     const game = getGameInstance();
 
     const squares = fillScreenWithSquares(100, 100, 5);
-
-    game.on('tx', (txHash: string, index: number) => {
+    const handleGameTx = (txHash: string, index: number) => {
       const x = squares[index % squares.length].x;
       const y = squares[index % squares.length].y;
 
       const newTxCard: TxBoxData = { x, y, hash: txHash };
 
       setTxCards((txCards) => [...txCards, newTxCard]);
-    });
+    };
 
-    game.on('started', () => {
+    game.on('tx', handleGameTx);
+
+    const handleGameStart = () => {
       setIsGameStarted(true);
       console.log('Game started');
-    });
+    };
 
-    game.on('finished', () => {
+    game.on('started', handleGameStart);
+
+    const handleGameFinished = () => {
       setIsGameFinished(true);
       setTimeout(() => {
         navigateTo('ResultScreen');
       }, 3000);
       console.log('Game finished');
-    });
+    };
+
+    game.on('finished', handleGameFinished);
+
+    return () => {
+      game.off('tx', handleGameTx);
+      game.off('started', handleGameStart);
+      game.off('finished', handleGameFinished);
+      console.log('GameScreen unmounted');
+    };
   }, [getGameInstance, navigateTo]);
 
   const handleStart = () => {
