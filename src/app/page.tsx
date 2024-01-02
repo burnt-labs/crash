@@ -7,6 +7,8 @@ import { InitialScreen } from '@/screens/InitialScreen';
 import { GameProvider } from '@/providers/GameProvider';
 import { StackNavigator, StackScreen } from '@/providers/NavigatorProvider';
 import { AbstraxionProvider } from '@burnt-labs/abstraxion';
+import '@burnt-labs/ui/styles.css';
+import '@burnt-labs/abstraxion/styles.css';
 
 export default function Home() {
   useEffect(() => {
