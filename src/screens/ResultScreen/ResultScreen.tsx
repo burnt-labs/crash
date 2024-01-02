@@ -48,7 +48,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = () => {
 
     game.restart();
 
-    navigateTo('GameScreen');
+    navigateTo('InitialScreen');
   };
 
   const handleShare = () => {
