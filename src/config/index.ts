@@ -24,7 +24,7 @@ export const appConfig: AppConfig = {
   // mnemonics: [
   //   'fatigue later mass devote case over home return oyster guess warrior correct much tip torch robot acid coast response supply emerge antique replace faint',
   // ],
-  // only for testing
+  // only for testing, commenting this out will generate new account on every run
   // mnemonics: [
   //   'draft twin rigid reunion either slight hint sell choice curtain harbor denial lazy salon open laugh pattern census blouse smooth refuse boring grow menu',
   //   'version hire now unique witness short spike avoid shine family rotate velvet elegant journey gold hundred motor cloud pretty auto health dress escape usual',

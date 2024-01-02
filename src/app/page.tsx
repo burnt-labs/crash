@@ -6,6 +6,9 @@ import { GameScreen } from '@/screens/GameScreen';
 import { InitialScreen } from '@/screens/InitialScreen';
 import { GameProvider } from '@/providers/GameProvider';
 import { StackNavigator, StackScreen } from '@/providers/NavigatorProvider';
+import { AbstraxionProvider } from '@burnt-labs/abstraxion';
+import '@burnt-labs/ui/styles.css';
+import '@burnt-labs/abstraxion/styles.css';
 
 export default function Home() {
   useEffect(() => {
@@ -15,12 +18,14 @@ export default function Home() {
   }, []);
 
   return (
-    <GameProvider>
-      <StackNavigator initialScreen="InitialScreen">
-        <StackScreen name="InitialScreen" component={InitialScreen} />
-        <StackScreen name="GameScreen" component={GameScreen} />
-        <StackScreen name="ResultScreen" component={ResultScreen} />
-      </StackNavigator>
-    </GameProvider>
+    <AbstraxionProvider>
+      <GameProvider>
+        <StackNavigator initialScreen="InitialScreen">
+          <StackScreen name="InitialScreen" component={InitialScreen} />
+          <StackScreen name="GameScreen" component={GameScreen} />
+          <StackScreen name="ResultScreen" component={ResultScreen} />
+        </StackNavigator>
+      </GameProvider>
+    </AbstraxionProvider>
   );
 }
