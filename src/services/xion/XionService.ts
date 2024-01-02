@@ -93,7 +93,7 @@ export class XionService {
       const msg = await sendAuth();
 
       if (accountAddress) {
-        return walletClient?.signAndBroadcastSync(
+        return walletClient?.signAndBroadcast(
           accountAddress,
           [msg as EncodeObject],
           {
@@ -176,20 +176,17 @@ export class XionService {
     //   );
     // }
 
-    (async () => {
-      try {
-        const hash = await grant();
+    try {
+      const hash = await grant();
 
-        console.log(`Grant authorization tx hash: ${hash}`);
-        //const result1 = await revokeFee()
-        //const result1 = await grantFee();
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    })();
+      console.log(`Grant authorization tx hash: ${hash}`);
+      //const result1 = await revokeFee()
+      //const result1 = await grantFee();
+    } catch (error) {
+      console.error('Error:', error);
+    }
 
     const [firstAccount] = await wallet.getAccounts();
-
     const { sequence, accountNumber } = await client.getSequence(
       firstAccount.address,
     );
