@@ -70,7 +70,21 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
         this.wallets.map(async (wallet) => {
           console.log(wallet);
 
-          if (this.accountAddress) {
+          if (this.accountAddress && this.walletClient) {
+            const balanceResponse = await this.walletClient?.getBalance(
+              this.accountAddress,
+              'uxion',
+            );
+
+            // If the balance is greater than 1 XION, don't request funds
+            if (BigInt(balanceResponse?.amount) >= BigInt(1_000_000)) {
+              console.log(
+                'Balance is greater than 1 XION, not requesting funds from faucet.',
+              );
+
+              return;
+            }
+
             return XionService.requestFunds(this.accountAddress);
           }
         }),
