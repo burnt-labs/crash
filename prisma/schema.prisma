@@ -6,14 +6,24 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("POSTGRES_PRISMA_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model Entry {
   id        Int      @id @default(autoincrement())
   email     String
   score     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model AAEntry {
+  id        Int      @id @default(autoincrement())
+  email     String
+  score     Int
+  address   String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
