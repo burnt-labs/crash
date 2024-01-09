@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     description: 'The first L1 blockchain purpose built for consumer adoption.',
     images: ['/banner.jpg'],
     card: 'summary_large_image',
-    creator: '@burnt_',
+    creator: '@burnt_xion',
   },
 };
 

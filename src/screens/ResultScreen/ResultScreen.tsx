@@ -114,7 +114,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = () => {
         <div className={styles.socials}>
           <a
             className={styles.socialLink}
-            href="https://twitter.com/burnt_"
+            href="https://twitter.com/burnt_xion"
             target="_blank"
           >
             <XIcon className={styles.socialIcon} />
