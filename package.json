@@ -5,13 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
+    "prisma:generate": "prisma migrate dev",
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
     "commit": "cz"
   },
   "dependencies": {
-    "@burnt-labs/abstraxion": "^0.1.0-alpha.19",
+    "@burnt-labs/abstraxion": "^0.1.0-alpha.20",
     "@cosmjs/proto-signing": "^0.31.1",
     "@cosmjs/stargate": "^0.31.1",
     "@prisma/client": "^5.2.0",
