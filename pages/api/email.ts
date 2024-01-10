@@ -22,6 +22,7 @@ export default async function handler(
       email: req.body.email,
       score: req.body.score || 0,
       address: req.body.address || '',
+      generatedAddress: req.body.generatedAddress || '',
     },
   });
 

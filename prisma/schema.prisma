@@ -20,10 +20,11 @@ model Entry {
 }
 
 model AAEntry {
-  id        Int      @id @default(autoincrement())
-  email     String
-  score     Int
-  address   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               Int      @id @default(autoincrement())
+  email            String
+  score            Int
+  address          String
+  generatedAddress String
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 }

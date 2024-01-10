@@ -30,6 +30,9 @@ export const ResultScreen: React.FC<ResultScreenProps> = () => {
   };
 
   const handleSubmit = async () => {
+    const generatedWallet = getGameInstance().getState().wallets[0];
+    const accounts = await generatedWallet.getAccounts();
+
     await fetch('/api/email', {
       headers: {
         'Content-Type': 'application/json',
@@ -39,6 +42,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = () => {
         email,
         score: getGameInstance().getState().txCount,
         address: getGameInstance().getState().accountAddress,
+        generatedAddress: accounts[0].address || '',
       }),
     });
     setSubmitted(true);
