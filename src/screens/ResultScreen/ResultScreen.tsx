@@ -38,6 +38,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = () => {
       body: JSON.stringify({
         email,
         score: getGameInstance().getState().txCount,
+        address: getGameInstance().getState().accountAddress,
       }),
     });
     setSubmitted(true);

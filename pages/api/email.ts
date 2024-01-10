@@ -17,10 +17,11 @@ export default async function handler(
 
   const prisma = new PrismaClient();
 
-  await prisma.entry.create({
+  await prisma.aAEntry.create({
     data: {
       email: req.body.email,
       score: req.body.score || 0,
+      address: req.body.address || '',
     },
   });
 
