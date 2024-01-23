@@ -7,12 +7,12 @@ import { appConfig } from '@/config';
 import { Analytics } from '@vercel/analytics/react';
 
 export const metadata: Metadata = {
-  title: 'Burn it down',
+  title: 'Crash Game',
   description: 'The first L1 blockchain purpose built for consumer adoption.',
   openGraph: {
     type: 'website',
     url: appConfig.siteUrl,
-    title: 'Burn it down',
+    title: 'Crash Game',
     description: 'The first L1 blockchain purpose built for consumer adoption.',
     siteName: 'Burn it down',
     images: [

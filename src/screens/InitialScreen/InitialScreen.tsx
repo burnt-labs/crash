@@ -73,14 +73,10 @@ export const InitialScreen: React.FC = () => {
       <div className={styles.hero}>
         <AnimationBg />
         <div className={styles.container}>
-          <h1 className={styles.title}>BURN IT DOWN</h1>
-          <p className={styles.subtitle}>
-            Try to crash XION, the blockchain purpose built for consumer
-            adoption.
-          </p>
+          <h1 className={styles.title}>CRASH GAME</h1>
+          <p className={styles.subtitle}>Think you&apos;re fast, anon?</p>
           <p className={styles.caption}>
-            Your goal is to try to crash XION. During the next 20 seconds, send
-            as many transactions as you can by clicking quickly.
+            During the next 20 seconds, your goal is to try to crash XION.
           </p>
           <ArrowButton
             isAnimated

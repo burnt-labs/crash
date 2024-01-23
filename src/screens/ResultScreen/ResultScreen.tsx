@@ -61,7 +61,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = () => {
     const shareLink = buildTwitterShareLink(
       `I just scored ${
         game.getState().txCount
-      } trying to crash XION 🔥 \n\nThink you can do better? #BurnItDown`,
+      } in the crash game 🔥\n\nThink you can do better?`,
       'https://crash.burnt.com',
     );
 
