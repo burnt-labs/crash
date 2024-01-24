@@ -56,6 +56,12 @@ export const InitialScreen: React.FC = () => {
     }
   }, [isFinished, navigateTo]);
 
+  useEffect(() => {
+    if (account?.bech32Address) {
+      setIsOpen(false);
+    }
+  }, [account]);
+
   return (
     <section
       className={clsx(styles.root, {
