@@ -5,12 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
+    "prisma:generate": "prisma migrate dev",
     "start": "next start",
     "lint": "next lint",
     "prepare": "husky install",
     "commit": "cz"
   },
   "dependencies": {
+    "@burnt-labs/abstraxion": "^0.1.0-alpha.20",
     "@cosmjs/proto-signing": "^0.31.1",
     "@cosmjs/stargate": "^0.31.1",
     "@prisma/client": "^5.2.0",
@@ -21,10 +23,12 @@
     "cz-conventional-changelog": "^3.3.0",
     "iron-session": "^6.3.1",
     "next": "13.4.19",
+    "pino-pretty": "^10.2.3",
     "prisma": "^5.2.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "stylelint-config-prettier-scss": "^1.0.0"
+    "stylelint-config-prettier-scss": "^1.0.0",
+    "utf-8-validate": "^6.0.3"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.7.1",

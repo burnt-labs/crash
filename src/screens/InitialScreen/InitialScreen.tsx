@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
+import { Abstraxion, useAbstraxionAccount } from '@burnt-labs/abstraxion';
 
 import { ArrowButton } from '@/components/ArrowButton';
 import { AnimationBg } from '@/components/AnimationBg';
@@ -18,17 +19,23 @@ export const InitialScreen: React.FC = () => {
   const { initGame } = useGame();
   const [isAnimating, setisAnimating] = useState(false);
   const [isGameInited, setIsGameInited] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [isError, setIsError] = useState(false);
   const { navigateTo } = useStackNavigator();
+  const { data: account } = useAbstraxionAccount();
 
   const handleStart = async () => {
     try {
-      setisAnimating(true);
-      scrollTo(window.innerHeight * 3, 8000).then(() => {
-        setisAnimating(false);
-      });
-      await initGame();
-      setIsGameInited(true);
+      if (!account?.bech32Address) {
+        setIsOpen(true);
+      } else {
+        setisAnimating(true);
+        scrollTo(window.innerHeight * 3, 8000).then(() => {
+          setisAnimating(false);
+        });
+        await initGame();
+        setIsGameInited(true);
+      }
     } catch (e) {
       setIsError(true);
       console.log(e);
@@ -55,6 +62,7 @@ export const InitialScreen: React.FC = () => {
         [styles.finished]: isFinished,
       })}
     >
+      <Abstraxion onClose={() => setIsOpen(false)} isOpen={isOpen} />
       <svg
         className={styles.line}
         xmlns="http://www.w3.org/2000/svg"
@@ -65,14 +73,10 @@ export const InitialScreen: React.FC = () => {
       <div className={styles.hero}>
         <AnimationBg />
         <div className={styles.container}>
-          <h1 className={styles.title}>BURN IT DOWN</h1>
-          <p className={styles.subtitle}>
-            Try to crash XION, the blockchain purpose built for consumer
-            adoption.
-          </p>
+          <h1 className={styles.title}>CRASH GAME</h1>
+          <p className={styles.subtitle}>Think you&apos;re fast, anon?</p>
           <p className={styles.caption}>
-            Your goal is to try to crash XION. During the next 20 seconds, send
-            as many transactions as you can by clicking quickly.
+            During the next 20 seconds, your goal is to try to crash XION.
           </p>
           <ArrowButton
             isAnimated

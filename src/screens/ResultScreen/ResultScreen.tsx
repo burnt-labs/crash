@@ -30,6 +30,9 @@ export const ResultScreen: React.FC<ResultScreenProps> = () => {
   };
 
   const handleSubmit = async () => {
+    const generatedWallet = getGameInstance().getState().wallets[0];
+    const accounts = await generatedWallet.getAccounts();
+
     await fetch('/api/email', {
       headers: {
         'Content-Type': 'application/json',
@@ -38,6 +41,8 @@ export const ResultScreen: React.FC<ResultScreenProps> = () => {
       body: JSON.stringify({
         email,
         score: getGameInstance().getState().txCount,
+        address: getGameInstance().getState().accountAddress,
+        generatedAddress: accounts[0].address || '',
       }),
     });
     setSubmitted(true);
@@ -48,7 +53,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = () => {
 
     game.restart();
 
-    navigateTo('GameScreen');
+    navigateTo('InitialScreen');
   };
 
   const handleShare = () => {
@@ -56,7 +61,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = () => {
     const shareLink = buildTwitterShareLink(
       `I just scored ${
         game.getState().txCount
-      } trying to crash XION 🔥 \n\nThink you can do better? #BurnItDown`,
+      } in the crash game 🔥\n\nThink you can do better?`,
       'https://crash.burnt.com',
     );
 
@@ -114,7 +119,7 @@ export const ResultScreen: React.FC<ResultScreenProps> = () => {
         <div className={styles.socials}>
           <a
             className={styles.socialLink}
-            href="https://twitter.com/burnt_"
+            href="https://twitter.com/burnt_xion"
             target="_blank"
           >
             <XIcon className={styles.socialIcon} />

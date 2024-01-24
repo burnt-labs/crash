@@ -5,6 +5,7 @@ import { DirectSecp256k1HdWallet } from '@cosmjs/proto-signing';
 import { IGame, GameEvents, GameState } from './core';
 import { TRANSFER_AMOUNT } from '@/constants';
 import { appConfig } from '@/config';
+import { SigningCosmWasmClient } from '@cosmjs/cosmwasm-stargate';
 
 export class Game extends TypedEventEmitter<GameEvents> implements IGame {
   private wallets!: DirectSecp256k1HdWallet[];
@@ -23,11 +24,20 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
   private txCount = 0;
   private endTime = 0;
   private signerIndex = 0;
+  walletClient: SigningCosmWasmClient | undefined;
+  accountAddress: string | undefined;
 
-  constructor(duration: number, mnemonics: string[] = []) {
+  constructor(
+    duration: number,
+    mnemonics: string[] = [],
+    walletClient: SigningCosmWasmClient | undefined,
+    accountAddress: string | undefined,
+  ) {
     super();
     this.duration = duration;
     this.mnemonics = mnemonics;
+    this.walletClient = walletClient;
+    this.accountAddress = accountAddress;
   }
 
   getState(): GameState {
@@ -39,6 +49,8 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
       isFinished: this.isFinished,
       txCount: this.txCount,
       endTime: this.endTime,
+      walletClient: this.walletClient,
+      accountAddress: this.accountAddress,
     };
   }
 
@@ -56,16 +68,35 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
       console.log('Requesting funds...');
       await Promise.all(
         this.wallets.map(async (wallet) => {
-          const [firstAccount] = await wallet.getAccounts();
+          console.log(wallet);
 
-          return XionService.requestFunds(firstAccount.address);
+          if (this.accountAddress && this.walletClient) {
+            const balanceResponse = await this.walletClient?.getBalance(
+              this.accountAddress,
+              'uxion',
+            );
+
+            // If the balance is greater than 1 XION, don't request funds
+            if (BigInt(balanceResponse?.amount) >= BigInt(1_000_000)) {
+              console.log(
+                'Balance is greater than 1 XION, not requesting funds from faucet.',
+              );
+
+              return;
+            }
+
+            return XionService.requestFunds(this.accountAddress);
+          }
         }),
       );
-
       console.log('Creating signers...');
       this.signers = await Promise.all(
         this.wallets.map(async (wallet) =>
-          XionService.createXionSigner(wallet),
+          XionService.createXionSigner(
+            wallet,
+            this.walletClient,
+            this.accountAddress,
+          ),
         ),
       );
 
@@ -76,7 +107,6 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
       throw err;
     }
   }
-
   handleClick = async (e: MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -103,8 +133,10 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
     const promise = signer
       .sendTokens(appConfig.xionFaucetAddress, TRANSFER_AMOUNT)
       .then((hash) => {
-        this.txCount++;
-        this.emit('tx', hash, this.txCount, this.getState());
+        if (hash) {
+          this.txCount++;
+          this.emit('tx', hash, this.txCount, this.getState());
+        }
       });
 
     this.promises.push(promise);
@@ -140,6 +172,7 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
   restart() {
     this.txCount = 0;
     this.isFinished = false;
+    this.wallets = [];
   }
 
   terminate() {
