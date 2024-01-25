@@ -26,7 +26,8 @@ export class XionService {
         body: JSON.stringify({ address, coins: [coin] }),
       },
       {
-        timeout: 60000,
+        // 3 minutes
+        timeout: 180000,
       },
     );
   }
