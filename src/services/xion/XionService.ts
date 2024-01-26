@@ -17,7 +17,7 @@ export class XionService {
     console.log(`Requesting funds for address ${address}...`);
 
     return fetchWithRetry(
-      appConfig.xionFaucetApiUrl,
+      '/api/faucet',
       {
         method: 'POST',
         headers: {
