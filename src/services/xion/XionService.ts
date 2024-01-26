@@ -17,11 +17,12 @@ export class XionService {
     console.log(`Requesting funds for address ${address}...`);
 
     return fetchWithRetry(
-      '/api/faucet',
+      appConfig.xionFaucetApiUrl,
       {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          apikey: appConfig.xionFaucetApiKey,
         },
         body: JSON.stringify({ address, coins: [coin] }),
       },

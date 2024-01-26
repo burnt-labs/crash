@@ -1,6 +1,7 @@
 interface AppConfig {
   xionRpcUrl: string;
   xionExplorerUrl: string;
+  xionFaucetApiKey: string;
   xionFaucetApiUrl: string;
   xionFaucetAddress: string;
   txSpamDuration: number;
@@ -14,6 +15,7 @@ interface AppConfig {
 export const appConfig: AppConfig = {
   xionRpcUrl: process.env.NEXT_PUBLIC_XION_RPC as string,
   xionExplorerUrl: process.env.NEXT_PUBLIC_XION_EXPLORER as string,
+  xionFaucetApiKey: process.env.NEXT_PUBLIC_XION_FAUCET_API_KEY as string,
   xionFaucetApiUrl: process.env.NEXT_PUBLIC_XION_FAUCET_API as string,
   xionFaucetAddress: process.env.NEXT_PUBLIC_XION_FAUCET_ADDRESS as string,
   txSpamDuration: parseInt(process.env.NEXT_PUBLIC_TX_SPAM_DURATION as string),
