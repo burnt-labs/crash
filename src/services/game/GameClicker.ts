@@ -77,7 +77,7 @@ export class Game extends TypedEventEmitter<GameEvents> implements IGame {
             );
 
             // If the balance is greater than 1 XION, don't request funds
-            if (BigInt(balanceResponse?.amount) >= BigInt(1_000_000)) {
+            if (BigInt(balanceResponse?.amount) >= BigInt(250_000)) {
               console.log(
                 'Balance is greater than 1 XION, not requesting funds from faucet.',
               );
